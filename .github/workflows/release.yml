@@ -1,0 +1,119 @@
+name: Create Release
+# This workflow gathers the version number and the relevant files
+# and creates and pushes a Tag and a Release with them.
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    env:
+      # path to the release files
+      BUILD_PATH: ${{ github.workspace }}/CalibreImport/ReleaseFiles
+
+    steps:
+    # Checkout repository
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # Set up Git identity
+    - name: Set up Git identity
+      run: |
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.actor }}@tuscoss.com"
+
+    # Check if relevant files have changed
+    - name: Check if relevant files have changed
+      id: check_files_changed
+      run: |
+        git fetch origin master
+        git checkout master
+        CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- CalibreImport/ReleaseFiles/CalibreImport.config CalibreImport/ReleaseFiles/*.dll CalibreImport/ReleaseFiles/Setup.ps1 CalibreImport/ReleaseFiles/CalibreImportSetup.exe)
+        echo "Changed files: $CHANGED_FILES"
+        if [ -n "$CHANGED_FILES" ]; then
+          echo "FILES_CHANGED=true" >> $GITHUB_ENV
+        else
+          echo "FILES_CHANGED=false" >> $GITHUB_ENV
+
+    # Stop workflow if no changes detected
+    - name: Stop workflow if no changes detected
+      if: env.FILES_CHANGED == 'false'
+      run: |
+        echo "No relevant changes detected. Stopping workflow."
+        exit 0
+
+    # Extract version from AssemblyInfo.cs and create a tag
+    - name: Extract version from AssemblyInfo.cs and create a tag
+      if: env.FILES_CHANGED == 'true'
+      id: create_tag
+      run: |
+        current_version=$(grep -Po '(?<=\[assembly: AssemblyVersion\(")([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)' CalibreImport/Properties/AssemblyInfo.cs)
+        echo "Current version: $current_version"
+        if [ -z "$current_version" ]; then
+          echo "Failed to parse current version from AssemblyInfo.cs"
+          exit 1
+        fi
+        git tag -a "v$current_version" -m "Release version $current_version"
+        git push origin "v$current_version"
+        echo "NEW_VERSION=$current_version" >> $GITHUB_ENV
+
+    # Extract Assembly Name from .csproj
+    - name: Extract Assembly Name from .csproj
+      if: env.FILES_CHANGED == 'true'
+      id: extract_assembly_name
+      run: |
+        assembly_name=$(grep -Po '(?<=<AssemblyName>)([^<]+)' CalibreImport/CalibreImport.csproj)
+        echo "Assembly name: $assembly_name"
+        if [ -z "$assembly_name" ]; then
+          echo "Failed to parse assembly name from .csproj"
+          exit 1
+        fi
+        echo "ASSEMBLY_NAME=$assembly_name" >> $GITHUB_ENV
+
+    # Get commit message
+    - name: Get commit message
+      id: get_commit_message
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B HEAD)
+        echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
+
+    # Create the zip file for the release
+    - name: Create the zip file for the release
+      if: env.FILES_CHANGED == 'true'
+      run: |
+        mkdir -p release
+        cp $BUILD_PATH/*.dll $BUILD_PATH/CalibreImport.config $BUILD_PATH/Setup.ps1 release/
+        zip -r ${{ env.ASSEMBLY_NAME }}-v${{ env.NEW_VERSION }}.zip release/
+        echo "ZIP_FILE=${{ env.ASSEMBLY_NAME }}-v${{ env.NEW_VERSION }}.zip" >> $GITHUB_ENV
+
+    # Copy and rename CalibreImportSetup.exe
+    - name: Copy and rename CalibreImportSetup.exe
+      if: env.FILES_CHANGED == 'true'
+      run: |
+        cp $BUILD_PATH/CalibreImportSetup.exe release/CalibreImportSetup-${{ env.NEW_VERSION }}.exe
+        echo "SETUP_FILE=release/CalibreImportSetup-${{ env.NEW_VERSION }}.exe" >> $GITHUB_ENV
+
+    # Create Release
+    - name: Create Release
+      if: env.FILES_CHANGED == 'true'
+      id: create_release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+      with:
+        tag_name: v${{ env.NEW_VERSION }}
+        name: Release v${{ env.NEW_VERSION }}
+        body: ${{ env.COMMIT_MESSAGE }}
+        draft: false
+        prerelease: false
+        files: ${{ env.ZIP_FILE }},${{ env.SETUP_FILE }}
+        token: ${{ secrets.PAT_GITHUB }}
