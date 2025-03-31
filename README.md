@@ -8,13 +8,13 @@ It allows to intelligently import one or multiple eBook files into Calibre direc
 
 
 ## Usage
-The user can right-click on any eBook in their File Explorer, and select "Import to Calibre". By "eBook" we mean the files currently supported by Calibre. This app will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
+Simply right-click on any eBook, or group of eBooks, and select "Import to Calibre".  The entry submenu will offer a list of all Calibre libraries presently in the system. Select the one you want to import the books into.
+
+![image](https://github.com/user-attachments/assets/ecfdf0b3-12b1-4ed7-bf86-12003f958bb0)
+
+The files can have any of the Calibre-supported eBook file types. Calibre Import will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
 
 `.epub, .pdf, .mobi, .azw, .azw3, .fb2, .djvu, .lrf, .rtf, .txt, .doc, .docx, .odt, .htm, .html, .cbz, .cbr, .pdb, .snb, .tcr, .zip, .rar`.
-
-![image](https://github.com/user-attachments/assets/07c6ea38-aa46-42d4-8a3e-7f6f9f6d88db)
-
-The user selection can include one file or multiple files. Such multiple files can have any of the supported extensions. The entry submenu will offer a list of all Calibre libraries presently in the system.
 
 Alternatively, the user can use a dialog window rather than the submenu. The functionality is the same.
 
@@ -57,13 +57,25 @@ The Logging is always done in English.
 This project has only been tested on x64 machines, with Windows 10/11 and calibre 7. It may or may not work on different Windows systems and older Calibre versions. It requires the [.Net Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
 
 ## Installation
-Rather than providing a Setup executable, the installation process is done through a PowerShell script. The installation is "portable", since the user can place the necessary DLLs and launch the Setup script from any folder.
+ ### Setup executable
+ 1) Download the setup file from the latest release.
+ 2) Run the setup and follow instructions.
 
-1) Download the [latest release](https://github.com/unalignedcoder/CalibreImportShellExtension/releases).
-2) Extract the files to a folder of your choice.
-3) Run the `Setup.ps1` Powershell script. The script will register the Dll, add the necessary Registry entries and optionally restart Explorer, so as to make the new context menu entry immediately available. Read inside the Setup script for more instructions.
+ ![image](https://github.com/user-attachments/assets/dc980598-f9a4-4fdc-b216-480e6060fe65)
+
+ This method will install the extension on a per-user basis.
+
+ ### Zipped folder
+ If you prefer running the dll and config file from one folder, you can use the included PowerShell script to install in a "portable" mode. 
+
+ 1) Download the [latest release](https://github.com/unalignedcoder/CalibreImportShellExtension/releases).
+ 2) Extract the files to a folder of your choice.
+ 3) Run the `Setup.ps1` Powershell script. The script will register the Dll, add the necessary Registry entries and optionally restart Explorer, so as to make the new context menu entry immediately available. Read inside the Setup script for more instructions.
 
 ## Uninstallation
-Removing this Shell extension is just as easy. The user can simply run the Setup script with the `-u` parameter. All Registry entries will be deleted and the DLLs unregistered. All is left is to manually delete the folder with the files.
+If you installed via Setup executable, just uninstall from the "Apps" settings, or "Programs and Features" Control panel entry.
+
+If you installed via script, simply run the Setup script again with the `-u` parameter. 
+All Registry entries will be deleted and the DLLs unregistered. All is left is to manually delete the folder with the files.
 
 
