@@ -8,7 +8,7 @@ It allows to intelligently import one or multiple eBook files into Calibre direc
 
 
 ## Usage
-Simply right-click on any eBook, or group of eBooks, and select "Import to Calibre".  The entry submenu will offer a list of all Calibre libraries presently in the system. Select the one you want to import the books into.
+Simply right-click on any eBook, or group of eBooks, and select "Import to Calibre".  The entry submenu will offer a list of all Calibre libraries presently in the system. Select the one into which you want to import the books.
 
 ![image](https://github.com/user-attachments/assets/ecfdf0b3-12b1-4ed7-bf86-12003f958bb0)
 
