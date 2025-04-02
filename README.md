@@ -18,22 +18,22 @@ The files can have any of the Calibre-supported eBook file types. Calibre Import
 
 Alternatively, the user can use a dialog window rather than the submenu. The functionality is the same.
 
-<img src="https://github.com/user-attachments/assets/8b9679bb-0943-44a6-ace3-8145c8a0b661"  width=60% />
+![image](https://github.com/user-attachments/assets/1598cf4a-f025-428a-806f-ed44d40578f2)
 
 Once the import has concluded, the user will be prompted to start Calibre and directly open the library into which the ebooks have been imported.
 
 ## Settings
 The Settings window sets some important options.
 
-![image](https://github.com/user-attachments/assets/a8dedadc-63ac-4406-9a3f-8d4e679d1d48)
+![image](https://github.com/user-attachments/assets/43552140-d9c9-491b-bc61-0b0b1a1ab3bd)
 
 1) Hide libraries from the context submenu (this obviously doesn't affect the library visibility in Calibre!)
 2) Path to the Calibre folder, if the user has it installed in a particular location;
 3) How the import process should behave with duplicates. The following options are established by Calibre: `overwrite` (the new book will replace the old); `ignore` (the book will not be imported); `new_record` (a duplicate entry will be created). Such settings are valid for all import operations, and cannot be modified on a per-book basis.
-4) Whether to use a dialog rather than a submenu entry;
-5) Whether to Log all books that are being imported into Calibre, and whether to log all events for debug purposes;
-6) Whether to auto-kill Calibre or prompt the user about it (the import process cannot go through if Calibre or any Calibre-related app is running;)
-7) Select the language of the app (in case the System picked the wrong language for the user.)
+4) Select language (in case the System picked the wrong language for the user;)
+5) Whether to use a dialog rather than a submenu entry;
+6) Whether to Log all books that are being imported into Calibre, and whether to log all events for debug purposes;
+7) Whether to auto-kill Calibre or prompt the user about it (the import process cannot go through if Calibre or any Calibre-related app is running.)
 
 ## Localization
 The app is AI-translated in the following langauges:
@@ -61,7 +61,7 @@ This project has only been tested on x64 machines, with Windows 10/11 and calibr
  1) Download the setup file from the latest release.
  2) Run the setup and follow instructions.
 
- ![image](https://github.com/user-attachments/assets/dc980598-f9a4-4fdc-b216-480e6060fe65)
+ ![image](https://github.com/user-attachments/assets/66c95ed0-48ac-4e8e-b0f4-36f3167c1f30)
 
  This method will install the extension on a per-user basis.
 
