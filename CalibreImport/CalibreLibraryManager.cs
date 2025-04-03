@@ -8,13 +8,9 @@ namespace CalibreImport
 {
     public static class CalibreLibraryManager
     {
-        /// <summary>
-        /// Retrieves the list of Calibre libraries from gui.json.
-        /// </summary>
-        /// <param name="logger">
-        /// Optional logger action to write log messages (e.g., (message, color) => Logger.LogThis(message, color)).
-        /// </param>
-        /// <returns>List of CalibreLibrary objects or null on error.</returns>
+        // This method retrieves the list of Calibre libraries from the "gui.json" file.
+        // It parses it, and extracts the library paths and names.
+        // If anyone knows a more appropriate source for the list of libraries, let me know.
         public static List<CalibreLibrary> GetLibraries()
         {
             try
@@ -22,12 +18,14 @@ namespace CalibreImport
                 var calibreConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "calibre");
                 var guiFilePath = Path.Combine(calibreConfigPath, "gui.json");
 
+                // Can't do much with this app if the list of libraries can't be found.
                 if (!File.Exists(guiFilePath))
                 {
                     Logger.LogThis($"Calibre gui.json not found at {guiFilePath}. Cannot extract list of Libraries.");
                     return null;
                 }
 
+                // Read the JSON file and parse it
                 var guiJson = JObject.Parse(File.ReadAllText(guiFilePath));
                 var libraries = guiJson["library_usage_stats"]?
                     .ToObject<Dictionary<string, object>>()?.Keys

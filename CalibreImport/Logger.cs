@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace CalibreImport
 {
+    // This class provide a simple logging mechanism for the application.
     public static class Logger
     {
         private static readonly string assemblyName;
@@ -54,6 +55,9 @@ namespace CalibreImport
             }
         }
 
+        // This method logs messages to the log file.
+        // It can log both verbose and non-verbose messages based on the settings.
+        // The method also enriches the log message with debug information if verbose logging is enabled.
         public static void LogThis(string message, bool isVerbose = false)
         {
             try

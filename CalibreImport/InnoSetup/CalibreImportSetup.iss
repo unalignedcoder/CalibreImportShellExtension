@@ -8,7 +8,7 @@
 [Setup]
 ; Application metadata
 AppName={#AppName}
-AppVersion=0.0.7.6
+AppVersion=0.0.7.7
 DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#MainDll}

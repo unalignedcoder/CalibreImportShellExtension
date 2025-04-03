@@ -112,7 +112,6 @@
 	C# files being compiled 
 	-->
   <ItemGroup>
-    <Compile Include="AppSettings.cs" />
     <Compile Include="AutomergeOption.cs" />
     <Compile Include="CalibreImport.cs" />
     <Compile Include="CalibreLibraryManager.cs" />
@@ -126,7 +125,6 @@
     </Compile>
     <Compile Include="Locales.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="ProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>

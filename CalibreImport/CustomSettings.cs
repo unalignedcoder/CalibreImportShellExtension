@@ -19,6 +19,7 @@ namespace CalibreImport
             string ConfigName = $"{assemblyName}.config";
             string ConfDirectory;
 
+            // Check if the application is running in a portable mode
             if (CheckPortable.IsPortable())
             {
                 ConfDirectory = Path.GetDirectoryName(typeof(CustomSettings).Assembly.Location);
@@ -28,7 +29,7 @@ namespace CalibreImport
                 ConfDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), assemblyName);
             }
 
-            // Ensure the directory exists
+            // Ensure the directory exists, if not create it
             if (!Directory.Exists(ConfDirectory))
             {
                 Directory.CreateDirectory(ConfDirectory);
@@ -36,6 +37,7 @@ namespace CalibreImport
 
             string configFilePath = Path.Combine(ConfDirectory, ConfigName);
 
+            // Check if the config file exists, if not create a default one
             if (!File.Exists(configFilePath))
             {
                 CreateDefaultConfig(configFilePath);
@@ -49,6 +51,7 @@ namespace CalibreImport
 
         public static void Save()
         {
+            // Save the configuration settings
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
         }

@@ -3,6 +3,8 @@ using System.Globalization;
 
 namespace CalibreImport
 {
+    // This class provides access to resource strings for the application.
+    // The actual localized dictionaries of strings can be found in the Locales class.
     public static class ResourceStrings
     {
         public static string AlsoDebugLogRes;

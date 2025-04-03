@@ -25,6 +25,11 @@ namespace CalibreImport
     [DisplayName("CalibreImport")]
     [COMServerAssociation(AssociationType.AllFiles)] //needed for Directory Opus, apparently.
     [COMServerAssociation(AssociationType.ClassOfExtension, ".epub", ".pdf", ".mobi", ".azw", ".azw3", ".fb2", ".djvu", ".lrf", ".rtf", ".txt", ".doc", ".docx", ".odt", ".htm", ".html", ".cbz", ".cbr", ".pdb", ".snb", ".tcr", ".zip", ".rar")]
+
+    // Welcome to CalibreImport, the main class of this Shell Extension.
+    // This class is responsible for creating the context menu and handling the calibredb.exe import process.
+    // It uses the SharpShell library to create a COM server that integrates with Windows Explorer.
+    // The class is decorated with various attributes to specify its COM visibility and associations with file types.
     public class CalibreImport : SharpContextMenu
     {
         private List<string> _supportedExtensions = new List<string>();
@@ -203,10 +208,11 @@ namespace CalibreImport
         }
 
         // Define a non-generic delegate type
+        // whatever that means
         public delegate void ReportProgressDelegate(int progress);
 
         // Primary import handler that processes single or multiple files
-        // Manages Calibre process state and handles user interaction during import
+        // Manages Calibre process state, and handles user interaction during import
         private void ExecuteImport(string selectedLibrary = null, ReportProgressDelegate reportProgress = null)
         {
             try
@@ -551,7 +557,7 @@ namespace CalibreImport
             };
         }
 
-        // Get list of supported file extensions										
+        // Get the list of supported eBook file extensions										
         private static List<string> GetFileExtensions()
         {
             var extensions = new List<string>();
@@ -610,7 +616,7 @@ namespace CalibreImport
             }
         }
 
-        // Get list of Calibre libraries from gui.json											  
+        // Call on the CalibreLibraryManager class to retrieve the list of Calibre libraries
         private List<CalibreLibrary> GetCalibreLibraries()
         {
             return CalibreLibraryManager.GetLibraries();

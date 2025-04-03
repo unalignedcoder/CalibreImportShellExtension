@@ -5,6 +5,10 @@ using System.Globalization;
 public static class Locales
 {
     // ResourceStrings.cs will pick up localization strings from here
+    // This is a dictionary of dictionaries, where the outer dictionary's key is the culture name.
+    // In case you were wondering, we adopted this self-made method over the built-in Resources.resx
+    // method, in order to avoid the need to create a separate file for each language and, more
+    // importantly, to avoid the creation of locale folders for each language within the release build.
     private static readonly Dictionary<string, Dictionary<string, string>> _localizedStrings = new Dictionary<string, Dictionary<string, string>>
     {
         {

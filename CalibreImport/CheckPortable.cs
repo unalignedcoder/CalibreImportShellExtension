@@ -6,6 +6,9 @@ namespace CalibreImport
 {
     public static class CheckPortable
     {
+        // Check if the application is running in portable mode
+        // It is not really "portable", though, as registry entries are still needed.
+        // It just checks if the config file is in the same directory as the assembly.
         public static bool IsPortable()
         {
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
