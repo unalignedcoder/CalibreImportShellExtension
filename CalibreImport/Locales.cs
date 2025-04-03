@@ -10,11 +10,12 @@ public static class Locales
         {
             "en-US", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre Import Shell Extension" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Import To Calibre" },
                 { "InvalidSelection", "Invalid selection of files" },
                 { "Settings", "Settings" },
-                { "CalibreRunning", "calibre.exe is running. Would you like to terminate it?" },
+                { "CalibreRunning", "Calibre is running. Would you like to close it?" },
                 { "ImportSuccess", "Files imported successfully. Would you like to launch Calibre?" },
                 { "ImportFailure", "Failed to import files. Check the log for details." },
                 { "ImportBtn", "Import" },
@@ -28,7 +29,7 @@ public static class Locales
                 { "LogEbooks", "Log eBooks being imported" },
                 { "AlsoDebugLog", "also log for debugging" },
                 { "KillCalibre", "Auto close Calibre before importing" },
-                { "HideLibraries", "Check libraries to hide them from submenu" },
+                { "HideLibraries", "Select libraries you wish to hide from the menu" },
                 { "SetEntryName", "Name of the context menu entry:" },
                 { "PathToCalibre", "Path to the Calibre folder:" },
                 { "DuplicatesWhat", "What to do with duplicate books:" },
@@ -36,30 +37,33 @@ public static class Locales
                 { "RegistrationFailed", "Registration failed" },
                 { "NoLibraries", "No Calibre libraries found." },
                 { "Error", "Error" },
-                { "SettingsSaved", "Settings saved succesfully." },
+                { "SettingsSaved", "Settings saved successfully." },
                 { "ImportForm", "Calibre Import" },
                 { "SelectLibrary", "Select Calibre library" },
                 { "PleaseSelectLibrary", "Please select a library." },
                 { "Save", "Save" },
                 { "Cancel", "Cancel" },
-                { "SelectLanguage", "Select language:" }
+                { "SelectLanguage", "Select language:" },
+                { "Skipmessage", "Skip Successful Import message" },
+                { "AutoOpenCalibre", "Open Calibre after Import" }
            }
         },
         {
             "fr-FR", new Dictionary<string, string>
             {
-                { "NameApp", "Importer dans Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importer dans Calibre" },
                 { "InvalidSelection", "Sélection de fichiers non valide" },
                 { "Settings", "Paramètres" },
-                { "CalibreRunning", "Calibre.exe est en cours d'exécution. Voulez-vous le terminer?" },
+                { "CalibreRunning", "Calibre est en cours d'exécution. Souhaitez-vous le fermer?" },
                 { "ImportSuccess", "Fichiers importés avec succès. Voulez-vous lancer Calibre?" },
                 { "ImportFailure", "Échec de l'importation des fichiers. Vérifiez le journal pour plus de détails." },
                 { "ImportBtn", "Importer" },
                 { "Importing", "Importation..." },
                 { "InvalidFiles", "Sélection de fichiers non valide" },
                 { "CalibreProcessesRunning", "Les processus liés à Calibre suivants sont en cours d'exécution et seront terminés:" },
-                { "DoYouWantToProceed", "Voulez-vous continuer?" },
+                { "DoYouWantToProceed", "Souhaitez-vous poursuivre?" },
                 { "CalibreRunning2", "Calibre est toujours en cours d'exécution" },
                 { "ErrorLaunching", "Erreur lors du lancement de Calibre:" },
                 { "UseSubmenu", "Utiliser le sous-menu plutôt qu'une boîte de dialogue" },
@@ -80,17 +84,20 @@ public static class Locales
                 { "PleaseSelectLibrary", "Veuillez sélectionner une bibliothèque" },
                 { "Save", "Enregistrer" },
                 { "Cancel", "Annuler" },
-                { "SelectLanguage", "Sélectionner la langue:" }
-           }
+                { "SelectLanguage", "Sélectionner la langue:" },
+                { "Skipmessage", "Ignorer le message d'importation réussie" },
+                { "AutoOpenCalibre", "Ouvrir Calibre après l'importation" }
+            }
         },
         {
             "cs-CZ", new Dictionary<string, string>
             {
-                { "NameApp", "Rozšíření Calibre Shell" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importovat do Calibre" },
                 { "InvalidSelection", "Neplatný výběr souborů" },
                 { "Settings", "Nastavení" },
-                { "CalibreRunning", "calibre.exe běží. Chcete jej ukončit?" },
+                { "CalibreRunning", "Calibre běží. Chcete jej ukončit před importem?" },
                 { "ImportSuccess", "Soubory byly úspěšně importovány. Chcete spustit Calibre?" },
                 { "ImportFailure", "Import souborů se nezdařil. Podívejte se do protokolu pro podrobnosti." },
                 { "ImportBtn", "Importovat" },
@@ -118,17 +125,20 @@ public static class Locales
                 { "PleaseSelectLibrary", "Prosím, vyberte knihovnu." },
                 { "Save", "Uložit" },
                 { "Cancel", "Zrušit" },
-                { "SelectLanguage", "Vyberte jazyk:" }
+                { "SelectLanguage", "Vyberte jazyk:" },
+                { "Skipmessage", "Přeskočit zprávu o úspěšném importu" },
+                { "AutoOpenCalibre", "Otevřít Calibre po importu" }
             }
         },
         {
             "de-DE", new Dictionary<string, string>
             {
-                { "NameApp", "In Calibre importieren" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "In Calibre importieren" },
                 { "InvalidSelection", "Ungültige Dateiauswahl" },
                 { "Settings", "Einstellungen" },
-                { "CalibreRunning", "calibre.exe läuft. Möchten Sie es beenden?" },
+                { "CalibreRunning", "Calibre läuft. Möchten Sie es schließen?" },
                 { "ImportSuccess", "Dateien erfolgreich importiert. Möchten Sie Calibre starten?" },
                 { "ImportFailure", "Dateien konnten nicht importiert werden. Überprüfen Sie das Protokoll für Details." },
                 { "ImportBtn", "Importieren" },
@@ -141,7 +151,7 @@ public static class Locales
                 { "UseSubmenu", "Verwenden Sie das Untermenü anstelle eines Dialogs" },
                 { "LogEbooks", "Importierte eBooks protokollieren" },
                 { "AlsoDebugLog", "auch für Debugging protokollieren" },
-                { "KillCalibre", "Calibre vor dem Import automatisch schließen" },
+                { "KillCalibre", "Calibre vor dem Import automatisch beenden" },
                 { "HideLibraries", "Bibliotheken auswählen, um sie im Untermenü auszublenden" },
                 { "SetEntryName", "Name des Kontextmenüeintrags:" },
                 { "PathToCalibre", "Pfad zum Calibre-Ordner:" },
@@ -156,16 +166,19 @@ public static class Locales
                 { "PleaseSelectLibrary", "Bitte wählen Sie eine Bibliothek aus." },
                 { "Save", "Speichern" },
                 { "Cancel", "Abbrechen" },
-                { "SelectLanguage", "Sprache auswählen:" }
+                { "SelectLanguage", "Sprache auswählen:" },
+                { "Skipmessage", "Erfolgreiche Importmeldung überspringen" },
+                { "AutoOpenCalibre", "Calibre nach dem Import öffnen" }
             }
         },
         { "es", new Dictionary<string, string>
             {
-                { "NameApp", "Importar a Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importar a Calibre" },
                 { "InvalidSelection", "Selección de archivos no válida" },
                 { "Settings", "Configuraciones" },
-                { "CalibreRunning", "calibre.exe está en ejecución. ¿Te gustaría terminarlo?" },
+                { "CalibreRunning", "Calibre está en ejecución. ¿Te gustaría terminarlo?" },
                 { "ImportSuccess", "Archivos importados con éxito. ¿Te gustaría lanzar Calibre?" },
                 { "ImportFailure", "Error al importar archivos. Verifique el registro para más detalles." },
                 { "ImportBtn", "Importar" },
@@ -193,16 +206,19 @@ public static class Locales
                 { "PleaseSelectLibrary", "Por favor seleccione una biblioteca." },
                 { "Save", "Guardar" },
                 { "Cancel", "Cancelar" },
-                { "SelectLanguage", "Seleccionar idioma:" }
+                { "SelectLanguage", "Seleccionar idioma:" },
+                { "Skipmessage", "Omitir mensaje de importación exitosa" },
+                { "AutoOpenCalibre", "Abrir Calibre después de importar" }
             }
         },
         { "it", new Dictionary<string, string>
             {
-                { "NameApp", "Importa in Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importa in Calibre" },
                 { "InvalidSelection", "Selezione di file non valida" },
                 { "Settings", "Impostazioni" },
-                { "CalibreRunning", "calibre.exe è in esecuzione. Vuoi terminarlo?" },
+                { "CalibreRunning", "Calibre è in esecuzione. Vuoi chiuderlo?" },
                 { "ImportSuccess", "File importati con successo. Vuoi avviare Calibre?" },
                 { "ImportFailure", "Importazione dei file non riuscita. Controlla il log per i dettagli." },
                 { "Importing", "Importazione..." },
@@ -230,16 +246,19 @@ public static class Locales
                 { "PleaseSelectLibrary", "Seleziona una libreria." },
                 { "Save", "Salva" },
                 { "Cancel", "Annulla" },
-                { "SelectLanguage", "Seleziona lingua:" }
+                { "SelectLanguage", "Seleziona lingua:" },
+                { "Skipmessage", "Salta il messaggio di importazione riuscita" },
+                { "AutoOpenCalibre", "Apri Calibre dopo l'importazione" }
             }
         },
         { "ja", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre シェル拡張" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Calibre にインポート" },
                 { "InvalidSelection", "無効なファイル選択" },
                 { "Settings", "設定" },
-                { "CalibreRunning", "calibre.exe が実行中です。終了しますか？" },
+                { "CalibreRunning", "Calibre が実行中です。閉じますか？" },
                 { "ImportSuccess", "ファイルが正常にインポートされました。Calibre を起動しますか？" },
                 { "ImportFailure", "ファイルのインポートに失敗しました。詳細はログを確認してください。" },
                 { "ImportBtn", "インポート" },
@@ -260,24 +279,27 @@ public static class Locales
                 { "NameSettingsForm", "Calibre シェル拡張設定:" },
                 { "RegistrationFailed", "登録に失敗しました:" },
                 { "NoLibraries", "Calibre ライブラリが見つかりません。" },
-                { "Error", "エラー。" },
+                { "Error", "エラー" },
                 { "SettingsSaved", "設定が正常に保存されました。" },
                 { "ImportForm", "Calibre インポート" },
                 { "SelectLibrary", "Calibre ライブラリを選択" },
                 { "PleaseSelectLibrary", "ライブラリを選択してください。" },
                 { "Save", "保存" },
                 { "Cancel", "キャンセル" },
-                { "SelectLanguage", "言語を選択:" }
+                { "SelectLanguage", "言語を選択:" },
+                { "Skipmessage", "インポート成功メッセージをスキップ" },
+                { "AutoOpenCalibre", "インポート後にCalibreを開く" }
             }
         },
         {
             "ko-KR", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre 가져오기 셸 확장" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Calibre로 가져오기" },
                 { "InvalidSelection", "잘못된 파일 선택" },
                 { "Settings", "설정" },
-                { "CalibreRunning", "calibre.exe가 실행 중입니다. 종료하시겠습니까?" },
+                { "CalibreRunning", "Calibre가 실행 중입니다. 닫으시겠습니까?" },
                 { "ImportSuccess", "파일이 성공적으로 가져왔습니다. Calibre를 실행하시겠습니까?" },
                 { "ImportFailure", "파일 가져오기에 실패했습니다. 자세한 내용은 로그를 확인하십시오." },
                 { "ImportBtn", "가져오기" },
@@ -305,17 +327,20 @@ public static class Locales
                 { "PleaseSelectLibrary", "라이브러리를 선택하십시오." },
                 { "Save", "저장" },
                 { "Cancel", "취소" },
-                { "SelectLanguage", "언어 선택:" }
+                { "SelectLanguage", "언어 선택:" },
+                { "Skipmessage", "성공적인 가져오기 메시지 건너뛰기" },
+                { "AutoOpenCalibre", "가져오기 후 Calibre 열기" }
             }
         },
         {
             "pt-PT", new Dictionary<string, string>
             {
-                { "NameApp", "Extensão de Shell de Importação do Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importar para o Calibre" },
                 { "InvalidSelection", "Seleção inválida de arquivos" },
                 { "Settings", "Configurações" },
-                { "CalibreRunning", "calibre.exe está em execução. Deseja encerrá-lo?" },
+                { "CalibreRunning", "Calibre está em execução. Deseja fechá-lo?" },
                 { "ImportSuccess", "Arquivos importados com sucesso. Deseja iniciar o Calibre?" },
                 { "ImportFailure", "Falha ao importar arquivos. Verifique o log para mais detalhes." },
                 { "ImportBtn", "Importar" },
@@ -343,17 +368,20 @@ public static class Locales
                 { "PleaseSelectLibrary", "Por favor, selecione uma biblioteca." },
                 { "Save", "Salvar" },
                 { "Cancel", "Cancelar" },
-                { "SelectLanguage", "Selecionar idioma:" }
+                { "SelectLanguage", "Selecionar idioma:" },
+                { "Skipmessage", "Pular mensagem de importação bem-sucedida" },
+                { "AutoOpenCalibre", "Abrir Calibre após a importação" }
             }
         },
         {
             "ru-RU", new Dictionary<string, string>
             {
-                { "NameApp", "Расширение оболочки Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Импортировать в Calibre" },
                 { "InvalidSelection", "Неверный выбор файлов" },
                 { "Settings", "Настройки" },
-                { "CalibreRunning", "calibre.exe запущен. Хотите завершить его?" },
+                { "CalibreRunning", "Calibre запущен. Хотите закрыть его?" },
                 { "ImportSuccess", "Файлы успешно импортированы. Хотите запустить Calibre?" },
                 { "ImportFailure", "Не удалось импортировать файлы. Проверьте журнал для получения подробной информации." },
                 { "ImportBtn", "Импорт" },
@@ -363,7 +391,7 @@ public static class Locales
                 { "DoYouWantToProceed", "Хотите продолжить?" },
                 { "CalibreRunning2", "Процесс Calibre запущен" },
                 { "ErrorLaunching", "Ошибка запуска Calibre:" },
-                { "UseSubmenu", "Использовать подменю вместо диалога" },
+                { "UseSubmenu", "Использовать подменю вместо диалогового окна" },
                 { "LogEbooks", "Вести журнал импортируемых электронных книг" },
                 { "AlsoDebugLog", "также вести журнал для отладки" },
                 { "KillCalibre", "Автоматически закрывать Calibre перед импортом" },
@@ -381,17 +409,20 @@ public static class Locales
                 { "PleaseSelectLibrary", "Пожалуйста, выберите библиотеку." },
                 { "Save", "Сохранить" },
                 { "Cancel", "Отмена" },
-                { "SelectLanguage", "Выберите язык:" }
+                { "SelectLanguage", "Выберите язык:" },
+                { "Skipmessage", "Пропустить сообщение об успешном импорте" },
+                { "AutoOpenCalibre", "Открыть Calibre после импорта" }
             }
         },
         {
             "tr-TR", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre İçe Aktarma Kabuk Uzantısı" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Calibre'ye İçe Aktar" },
                 { "InvalidSelection", "Geçersiz dosya seçimi" },
                 { "Settings", "Ayarlar" },
-                { "CalibreRunning", "calibre.exe çalışıyor. Sonlandırmak ister misiniz?" },
+                { "CalibreRunning", "Calibre çalışıyor. Kapatmak ister misiniz?" },
                 { "ImportSuccess", "Dosyalar başarıyla içe aktarıldı. Calibre'yi başlatmak ister misiniz?" },
                 { "ImportFailure", "Dosyalar içe aktarılamadı. Ayrıntılar için günlüğü kontrol edin." },
                 { "ImportBtn", "İçe Aktar" },
@@ -419,24 +450,27 @@ public static class Locales
                 { "PleaseSelectLibrary", "Lütfen bir kütüphane seçin." },
                 { "Save", "Kaydet" },
                 { "Cancel", "İptal" },
-                { "SelectLanguage", "Dili seçin:" }
+                { "SelectLanguage", "Dili seçin:" },
+                { "Skipmessage", "Başarılı içe aktarma mesajını atla" },
+                { "AutoOpenCalibre", "İçe aktardıktan sonra Calibre'yi aç" }
             }
         },
         {
             "zh-CN", new Dictionary<string, string>
             {
-                { "NameApp", "导入到 Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "导入到 Calibre" },
                 { "InvalidSelection", "文件选择无效" },
                 { "Settings", "设置" },
-                { "CalibreRunning", "calibre.exe 正在运行。你想终止它吗？" },
+                { "CalibreRunning", "Calibre 正在运行。要关闭它吗？" },
                 { "ImportSuccess", "文件导入成功。你想启动 Calibre 吗？" },
                 { "ImportFailure", "文件导入失败。请检查日志以获取详细信息。" },
                 { "ImportBtn", "导入" },
                 { "Importing", "导入中..." },
                 { "InvalidFiles", "文件选择无效" },
                 { "CalibreProcessesRunning", "以下与 Calibre 相关的进程正在运行并将被终止：" },
-                { "DoYouWantToProceed", "你想继续吗？" },
+                { "DoYouWantToProceed", "是否继续？" },
                 { "CalibreRunning2", "Calibre 进程正在运行" },
                 { "ErrorLaunching", "启动 Calibre 时出错：" },
                 { "UseSubmenu", "使用子菜单而不是对话框" },
@@ -457,7 +491,9 @@ public static class Locales
                 { "PleaseSelectLibrary", "请选择一个库。" },
                 { "Save", "保存" },
                 { "Cancel", "取消" },
-                { "SelectLanguage", "选择语言" }
+                { "SelectLanguage", "选择语言" },
+                { "Skipmessage", "跳过导入成功消息" },
+                { "AutoOpenCalibre", "导入后打开 Calibre" }
             }
         }
     };

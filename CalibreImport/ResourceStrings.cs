@@ -26,6 +26,7 @@ namespace CalibreImport
         public static string LogEbooksRes;
         public static string MenuTextRes;
         public static string NameAppRes;
+        public static string NameAppShortRes;
         public static string NameSettingsFormRes;
         public static string NoLibrariesRes;
         public static string PathToCalibreRes;
@@ -38,6 +39,8 @@ namespace CalibreImport
         public static string SettingsRes;
         public static string SettingsSavedRes;
         public static string UseSubmenuRes;
+        public static string SkipmessageRes;
+        public static string AutoOpenCalibreRes;
 
         static ResourceStrings()
         {
@@ -78,6 +81,7 @@ namespace CalibreImport
                 LogEbooksRes = Locales.GetString("LogEbooks");
                 MenuTextRes = Locales.GetString("MenuText");
                 NameAppRes = Locales.GetString("NameApp");
+                NameAppShortRes = Locales.GetString("NameAppShort");
                 NameSettingsFormRes = Locales.GetString("NameSettingsForm");
                 NoLibrariesRes = Locales.GetString("NoLibraries");
                 PathToCalibreRes = Locales.GetString("PathToCalibre");
@@ -90,6 +94,8 @@ namespace CalibreImport
                 SettingsRes = Locales.GetString("Settings");
                 SettingsSavedRes = Locales.GetString("SettingsSaved");
                 UseSubmenuRes = Locales.GetString("UseSubmenu");
+                SkipmessageRes = Locales.GetString("Skipmessage");
+                AutoOpenCalibreRes = Locales.GetString("AutoOpenCalibre");
             }
 
             catch (Exception ex)

@@ -1,26 +1,54 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+//using System.Runtime.InteropServices;
 
 namespace CalibreImport
 {
     public static class Logger
     {
+        private static readonly string assemblyName;
         public static string LogFile { get; set; }
 
         static Logger()
         {
             try
             {
-                var dllDirectory = Path.GetDirectoryName(typeof(Logger).Assembly.Location);
-                var logNameSetting = CustomSettings.Config.AppSettings.Settings["logName"];
-                var logName = logNameSetting?.Value ?? "CalibreImport.log";
-                LogFile = Path.Combine(dllDirectory, logName);
+                assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+                string LogName = $"{assemblyName}.log";
+                string LogDirectory;
+
+                if (CheckPortable.IsPortable())
+                {
+                    LogDirectory = Path.GetDirectoryName(typeof(Logger).Assembly.Location);
+                }
+                else
+                {
+                    LogDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), assemblyName);
+                }
+
+                // Ensure the directory exists
+                if (!Directory.Exists(LogDirectory))
+                {
+                    Directory.CreateDirectory(LogDirectory);
+                }
+
+                LogFile = Path.Combine(LogDirectory, LogName);
+
+                // Ensure the log file is created if it doesn't exist
+                if (!File.Exists(LogFile))
+                {
+                    File.Create(LogFile).Dispose();
+                }
+
+                // Log initialization success
+                File.AppendAllText(LogFile, $"{DateTime.Now}: Logger initialized successfully.{Environment.NewLine}");
             }
             catch (Exception ex)
             {
-                // Log the exception to a default log file
-                var defaultLogFile = Path.Combine(Path.GetDirectoryName(typeof(Logger).Assembly.Location), "DefaultLog.log");
+                // Log the exceptions to a default log file in the AppData directory
+                var defaultLogFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), assemblyName, "Initial.log");
                 File.AppendAllText(defaultLogFile, $"{DateTime.Now}: Error initializing Logger: {ex.Message}{Environment.NewLine}");
                 throw;
             }
@@ -60,8 +88,8 @@ namespace CalibreImport
             }
             catch (Exception ex)
             {
-                // Log the exception to a default log file
-                var defaultLogFile = Path.Combine(Path.GetDirectoryName(typeof(Logger).Assembly.Location), "DefaultLog.log");
+                // Log the exceptions to a default log file in the AppData directory
+                var defaultLogFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), assemblyName, "Initial.log");
                 File.AppendAllText(defaultLogFile, $"{DateTime.Now}: Error logging message: {ex.Message}{Environment.NewLine}");
                 throw;
             }

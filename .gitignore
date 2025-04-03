@@ -371,3 +371,7 @@ FodyWeavers.xsd
 /res
 /CalibreImport/Powershell/Pre-Build.ps1
 /CalibreImport/Powershell/Post-Build.ps1
+/CalibreImport/InnoSetup/CalibreImportSetup.iss.bak
+/CalibreImport/Properties/CalibreImport.json
+/CalibreImport/LoggerOLD.cs
+/CalibreImport/ResourceStringsResx.cs

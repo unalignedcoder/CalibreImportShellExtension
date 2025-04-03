@@ -1,12 +1,9 @@
 using System;
-//using System.Configuration;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-//using CalibreImport;
-//using System.Collections.Generic;
 
 namespace CalibreImport
 {
@@ -23,10 +20,9 @@ namespace CalibreImport
             PopulateLanguageComboBox();
             LoadSettings();
             PopulateHiddenLibraries();
-            SetFormIcon();
             initialFontSize = this.Font.Size;
             initialFormSize = this.ClientSize;
-            InitializeDynamicStrings();
+            
         }
 
         // Populate the language combo box with supported languages
@@ -74,9 +70,14 @@ namespace CalibreImport
                 chkLog.Checked = bool.Parse(CustomSettings.Config.AppSettings.Settings["logThis"].Value);
                 chkVerbose.Checked = bool.Parse(CustomSettings.Config.AppSettings.Settings["verboseLog"].Value);
                 chkAutoKillCalibre.Checked = bool.Parse(CustomSettings.Config.AppSettings.Settings["autoKillCalibre"].Value);
+                chkSkipSuccessMessage.Checked = bool.Parse(CustomSettings.Config.AppSettings.Settings["skipSuccessMessage"].Value);
+                chkOpenCalibreAfterImport.Checked = bool.Parse(CustomSettings.Config.AppSettings.Settings["autoCalibreOpen"].Value);    
 
                 // Set the initial state of chkVerbose
                 chkVerbose.Enabled = chkLog.Checked;
+
+                // Set the initial state of chkOpenCalibreAfterImport
+                chkOpenCalibreAfterImport.Enabled = chkSkipSuccessMessage.Checked;
 
                 // Load the saved language setting
                 var savedCulture = CustomSettings.Config.AppSettings.Settings["language"].Value;
@@ -132,6 +133,19 @@ namespace CalibreImport
             }
         }
 
+        // Add the event handler method for SkipSuccessfulMessage checkbox
+        private void chkSkipSuccessMessage_CheckedChanged(object sender, EventArgs e)
+        {
+            // Enable or disable the OpenCalibreAfterImport checkbox based on the state of SkipSuccessfulMessage checkbox
+            this.chkOpenCalibreAfterImport.Enabled = this.chkSkipSuccessMessage.Checked;
+
+            // If SkipSuccessfulMessage is unchecked, also uncheck OpenCalibreAfterImport
+            if (!this.chkSkipSuccessMessage.Checked)
+            {
+                this.chkOpenCalibreAfterImport.Checked = false;
+            }
+        }
+
 
         // Populate the checked list box with libraries from CalibreLibraryManager
         private void PopulateHiddenLibraries()
@@ -147,7 +161,7 @@ namespace CalibreImport
                 }
 
                 // Read the hidden libraries setting.
-                string hiddenSetting = CustomSettings.Config.AppSettings.Settings["hiddenLibraries"].Value ?? "";
+                string hiddenSetting = CustomSettings.Config.AppSettings.Settings["language"].Value ?? "";
                 var hiddenList = hiddenSetting.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
                                               .Select(s => s.Trim())
                                               .ToList();
@@ -166,44 +180,6 @@ namespace CalibreImport
             {
                 Logger.LogThis($"Error populating hidden libraries: {ex.Message}");
             }
-        }
-
-        // Set the form icon from the base64 string in the configuration file
-        private void SetFormIcon()
-        {
-            try
-            {
-                string base64Icon = CustomSettings.Config.AppSettings.Settings["calibreIconBase64"].Value;
-                if (!string.IsNullOrEmpty(base64Icon))
-                {
-                    byte[] iconBytes = Convert.FromBase64String(base64Icon);
-                    using (var ms = new MemoryStream(iconBytes))
-                    {
-                        Bitmap bitmap = new Bitmap(ms);
-                        this.Icon = Icon.FromHandle(bitmap.GetHicon());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogThis($"Error setting form icon: {ex.Message}");
-            }
-        }
-
-        // Initialize dynamic strings from the resource file
-        private void InitializeDynamicStrings()
-        {
-            this.chkUseSubmenu.Text = ResourceStrings.UseSubmenuRes;
-            this.chkLog.Text = ResourceStrings.LogEbooksRes;
-            this.chkVerbose.Text = ResourceStrings.AlsoDebugLogRes;
-            this.chkAutoKillCalibre.Text = ResourceStrings.KillCalibreRes;
-            this.btnSave.Text = ResourceStrings.SaveRes;
-            this.btnCancel.Text = ResourceStrings.CancelRes;
-            this.groupHiddenLibraries.Text = ResourceStrings.HideLibrariesRes;
-            this.groupPath.Text = ResourceStrings.PathToCalibreRes;
-            this.groupDuplicate.Text = ResourceStrings.DuplicatesWhatRes;
-            this.groupBox1.Text = ResourceStrings.SelectLanguageRes;
-            this.Text = ResourceStrings.NameSettingsFormRes;
         }
 
         // control checkbox for logging
@@ -238,10 +214,9 @@ namespace CalibreImport
                 PopulateLanguageComboBox();
                 LoadSettings();
                 PopulateHiddenLibraries();
-                SetFormIcon();
 
                 // Initialize dynamic strings with the new language
-                InitializeDynamicStrings();
+                ApplyResourceStrings();
             }
         }
 
@@ -267,6 +242,7 @@ namespace CalibreImport
                 CustomSettings.Config.AppSettings.Settings["useSubmenu"].Value = chkUseSubmenu.Checked.ToString();
                 CustomSettings.Config.AppSettings.Settings["logThis"].Value = chkLog.Checked.ToString();
                 CustomSettings.Config.AppSettings.Settings["verboseLog"].Value = chkVerbose.Checked.ToString();
+                CustomSettings.Config.AppSettings.Settings["skipSuccessMessage"].Value = chkSkipSuccessMessage.Checked.ToString();
 
                 if (cmbAutomerge.SelectedItem != null)
                 {
@@ -287,6 +263,10 @@ namespace CalibreImport
                     CustomSettings.Config.AppSettings.Settings["language"].Value = (string)((dynamic)comboBoxLanguage.SelectedItem).Culture;
                 }
 
+                CustomSettings.Config.AppSettings.Settings["autoCalibreOpen"].Value = chkOpenCalibreAfterImport.Checked.ToString();
+
+                CustomSettings.Config.AppSettings.Settings["skipSuccessMessage"].Value = chkSkipSuccessMessage.Checked.ToString();
+
                 CustomSettings.Save();
 
                 MessageBox.Show(ResourceStrings.SettingsSavedRes, ResourceStrings.SettingsRes, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -298,6 +278,30 @@ namespace CalibreImport
             }
         }
 
+        // we do this to prevent vs from rewriting literal strings on top of dynamic values
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            ApplyResourceStrings();
+        }
+
+        private void ApplyResourceStrings()
+        {
+            this.btnSave.Text = ResourceStrings.SaveRes;
+            this.btnCancel.Text = ResourceStrings.CancelRes;
+            this.groupLanguage.Text = ResourceStrings.SelectLanguageRes;
+            this.groupOtherOptions.Text = ResourceStrings.SettingsRes;
+            this.chkAutoKillCalibre.Text = ResourceStrings.KillCalibreRes;
+            this.chkLog.Text = ResourceStrings.LogEbooksRes;
+            this.chkVerbose.Text = ResourceStrings.AlsoDebugLogRes;
+            this.chkUseSubmenu.Text = ResourceStrings.UseSubmenuRes;
+            this.groupPath.Text = ResourceStrings.PathToCalibreRes;
+            this.groupHiddenLibraries.Text = ResourceStrings.HideLibrariesRes;
+            this.groupDuplicate.Text = ResourceStrings.DuplicatesWhatRes;
+            this.Text = ResourceStrings.NameSettingsFormRes;
+            this.chkSkipSuccessMessage.Text = ResourceStrings.SkipmessageRes;
+            this.chkOpenCalibreAfterImport.Text = ResourceStrings.AutoOpenCalibreRes;
+
+        }
     }
 
     public class LanguageItem
@@ -305,5 +309,4 @@ namespace CalibreImport
         public string Culture { get; set; }
         public string Name { get; set; }
     }
-
 }

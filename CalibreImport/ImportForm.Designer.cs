@@ -1,4 +1,9 @@
-﻿namespace CalibreImport
+﻿using System;
+using System.Reflection;
+using System.Windows.Forms;
+
+
+namespace CalibreImport
 {
     partial class ImportForm
     {
@@ -41,7 +46,6 @@
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(136, 68);
             this.btnImport.TabIndex = 1;
-            this.btnImport.Text = ResourceStrings.ImportBtnRes;
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
@@ -52,7 +56,6 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(119, 68);
             this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = ResourceStrings.CancelRes;
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -63,7 +66,6 @@
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(114, 68);
             this.btnSettings.TabIndex = 3;
-            this.btnSettings.Text = ResourceStrings.SettingsRes;
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
@@ -98,12 +100,16 @@
             this.Controls.Add(this.listBoxLibraries);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = new System.Drawing.Icon("CalibreImport/Resources/MainAppIcon.ico");
+            this.Icon = global::CalibreImport.Properties.Resources.ImportSubmenuIcon;
             this.Name = "ImportForm";
             this.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.Text = ResourceStrings.SelectLibraryRes;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.ImportForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
         }
 
