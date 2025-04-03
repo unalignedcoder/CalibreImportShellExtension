@@ -57,8 +57,7 @@ namespace CalibreImport
         private string calibredbPath;
         private string calibrePath;
 
-        // Constructor
-        // Initializes the CalibreImport instance, sets culture from settings,
+        // Constructor: sets culture from settings,
         // and loads paths and supported file extensions
         public CalibreImport()
         {
