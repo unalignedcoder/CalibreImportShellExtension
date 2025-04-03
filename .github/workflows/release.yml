@@ -6,6 +6,11 @@ on:
     branches:
       - master
 
+# Prevent concurrent builds that might interfere with each other
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
@@ -43,6 +48,7 @@ jobs:
           echo "FILES_CHANGED=true" >> $GITHUB_ENV
         else
           echo "FILES_CHANGED=false" >> $GITHUB_ENV
+        fi
 
     # Stop workflow if no changes detected
     - name: Stop workflow if no changes detected
@@ -62,8 +68,15 @@ jobs:
           echo "Failed to parse current version from AssemblyInfo.cs"
           exit 1
         fi
-        git tag -a "v$current_version" -m "Release version $current_version"
-        git push origin "v$current_version"
+        
+        # Check if tag already exists
+        if git rev-parse "v$current_version" >/dev/null 2>&1; then
+          echo "Tag v$current_version already exists. Skipping tag creation."
+        else
+          git tag -a "v$current_version" -m "Release version $current_version"
+          git push origin "v$current_version"
+        fi
+        
         echo "NEW_VERSION=$current_version" >> $GITHUB_ENV
 
     # Extract Assembly Name from .csproj
@@ -83,23 +96,63 @@ jobs:
     - name: Get commit message
       id: get_commit_message
       run: |
-        COMMIT_MESSAGE=$(git log -1 --pretty=%B HEAD)
+        # Escape special characters in commit message
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B HEAD | sed 's/"/\\"/g')
         echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
+
+    # Debug information
+    - name: Debug info
+      if: env.FILES_CHANGED == 'true'
+      run: |
+        echo "Environment variables:"
+        echo "ASSEMBLY_NAME: ${{ env.ASSEMBLY_NAME }}"
+        echo "NEW_VERSION: ${{ env.NEW_VERSION }}"
+        echo "Files in build path:"
+        ls -la $BUILD_PATH
 
     # Create the zip file for the release
     - name: Create the zip file for the release
       if: env.FILES_CHANGED == 'true'
       run: |
         mkdir -p release
-        cp $BUILD_PATH/*.dll $BUILD_PATH/CalibreImport.config $BUILD_PATH/Setup.ps1 release/
-        zip -r ${{ env.ASSEMBLY_NAME }}-v${{ env.NEW_VERSION }}.zip release/
+        
+        # Check if required files exist
+        if [ ! -d "$BUILD_PATH" ]; then
+          echo "Error: Build path does not exist: $BUILD_PATH"
+          exit 1
+        fi
+        
+        if [ ! -f "$BUILD_PATH/CalibreImport.config" ] || [ ! -f "$BUILD_PATH/Setup.ps1" ]; then
+          echo "Warning: Some config files are missing. Continuing anyway."
+        fi
+        
+        # Copy files with error handling
+        cp $BUILD_PATH/*.dll $BUILD_PATH/CalibreImport.config $BUILD_PATH/Setup.ps1 release/ || {
+          echo "Warning: Some files could not be copied. Continuing with available files."
+        }
+        
+        zip -r ${{ env.ASSEMBLY_NAME }}-v${{ env.NEW_VERSION }}.zip release/ || {
+          echo "Error: Failed to create zip file"
+          exit 1
+        }
+        
         echo "ZIP_FILE=${{ env.ASSEMBLY_NAME }}-v${{ env.NEW_VERSION }}.zip" >> $GITHUB_ENV
 
     # Copy and rename CalibreImportSetup.exe
     - name: Copy and rename CalibreImportSetup.exe
       if: env.FILES_CHANGED == 'true'
       run: |
-        cp $BUILD_PATH/${{ env.ASSEMBLY_NAME }}Setup.exe release/${{ env.ASSEMBLY_NAME }}Setup-${{ env.NEW_VERSION }}.exe
+        # Check if setup exe exists
+        if [ ! -f "$BUILD_PATH/${{ env.ASSEMBLY_NAME }}Setup.exe" ]; then
+          echo "Error: Setup executable not found: $BUILD_PATH/${{ env.ASSEMBLY_NAME }}Setup.exe"
+          exit 1
+        fi
+        
+        cp "$BUILD_PATH/${{ env.ASSEMBLY_NAME }}Setup.exe" "release/${{ env.ASSEMBLY_NAME }}Setup-${{ env.NEW_VERSION }}.exe" || {
+          echo "Error: Failed to copy setup executable"
+          exit 1
+        }
+        
         echo "SETUP_FILE=release/${{ env.ASSEMBLY_NAME }}Setup-${{ env.NEW_VERSION }}.exe" >> $GITHUB_ENV
 
     # Create Release
@@ -115,5 +168,7 @@ jobs:
         body: ${{ env.COMMIT_MESSAGE }}
         draft: false
         prerelease: false
-        files: ${{ env.ZIP_FILE }},${{ env.SETUP_FILE }}
+        files: |
+          ${{ env.ZIP_FILE }}
+          ${{ env.SETUP_FILE }}
         token: ${{ secrets.PAT_GITHUB }}
