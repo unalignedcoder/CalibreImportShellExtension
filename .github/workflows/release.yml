@@ -99,8 +99,8 @@ jobs:
     - name: Copy and rename CalibreImportSetup.exe
       if: env.FILES_CHANGED == 'true'
       run: |
-        cp $BUILD_PATH/CalibreImportSetup.exe release/CalibreImportSetup-${{ env.NEW_VERSION }}.exe
-        echo "SETUP_FILE=release/CalibreImportSetup-${{ env.NEW_VERSION }}.exe" >> $GITHUB_ENV
+        cp $BUILD_PATH/${{ env.ASSEMBLY_NAME }}Setup.exe release/${{ env.ASSEMBLY_NAME }}Setup-${{ env.NEW_VERSION }}.exe
+        echo "SETUP_FILE=release/${{ env.ASSEMBLY_NAME }}Setup-${{ env.NEW_VERSION }}.exe" >> $GITHUB_ENV
 
     # Create Release
     - name: Create Release

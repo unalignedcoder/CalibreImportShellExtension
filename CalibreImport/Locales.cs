@@ -10,7 +10,8 @@ public static class Locales
         {
             "en-US", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre Import Shell Extension" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Import To Calibre" },
                 { "InvalidSelection", "Invalid selection of files" },
                 { "Settings", "Settings" },
@@ -48,7 +49,8 @@ public static class Locales
         {
             "fr-FR", new Dictionary<string, string>
             {
-                { "NameApp", "Importer dans Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importer dans Calibre" },
                 { "InvalidSelection", "Sélection de fichiers non valide" },
                 { "Settings", "Paramètres" },
@@ -86,7 +88,8 @@ public static class Locales
         {
             "cs-CZ", new Dictionary<string, string>
             {
-                { "NameApp", "Rozšíření Calibre Shell" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importovat do Calibre" },
                 { "InvalidSelection", "Neplatný výběr souborů" },
                 { "Settings", "Nastavení" },
@@ -124,7 +127,8 @@ public static class Locales
         {
             "de-DE", new Dictionary<string, string>
             {
-                { "NameApp", "In Calibre importieren" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "In Calibre importieren" },
                 { "InvalidSelection", "Ungültige Dateiauswahl" },
                 { "Settings", "Einstellungen" },
@@ -161,7 +165,8 @@ public static class Locales
         },
         { "es", new Dictionary<string, string>
             {
-                { "NameApp", "Importar a Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importar a Calibre" },
                 { "InvalidSelection", "Selección de archivos no válida" },
                 { "Settings", "Configuraciones" },
@@ -198,7 +203,8 @@ public static class Locales
         },
         { "it", new Dictionary<string, string>
             {
-                { "NameApp", "Importa in Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importa in Calibre" },
                 { "InvalidSelection", "Selezione di file non valida" },
                 { "Settings", "Impostazioni" },
@@ -235,7 +241,8 @@ public static class Locales
         },
         { "ja", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre シェル拡張" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Calibre にインポート" },
                 { "InvalidSelection", "無効なファイル選択" },
                 { "Settings", "設定" },
@@ -273,7 +280,8 @@ public static class Locales
         {
             "ko-KR", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre 가져오기 셸 확장" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Calibre로 가져오기" },
                 { "InvalidSelection", "잘못된 파일 선택" },
                 { "Settings", "설정" },
@@ -311,7 +319,8 @@ public static class Locales
         {
             "pt-PT", new Dictionary<string, string>
             {
-                { "NameApp", "Extensão de Shell de Importação do Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Importar para o Calibre" },
                 { "InvalidSelection", "Seleção inválida de arquivos" },
                 { "Settings", "Configurações" },
@@ -349,7 +358,8 @@ public static class Locales
         {
             "ru-RU", new Dictionary<string, string>
             {
-                { "NameApp", "Расширение оболочки Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Импортировать в Calibre" },
                 { "InvalidSelection", "Неверный выбор файлов" },
                 { "Settings", "Настройки" },
@@ -387,7 +397,8 @@ public static class Locales
         {
             "tr-TR", new Dictionary<string, string>
             {
-                { "NameApp", "Calibre İçe Aktarma Kabuk Uzantısı" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "Calibre'ye İçe Aktar" },
                 { "InvalidSelection", "Geçersiz dosya seçimi" },
                 { "Settings", "Ayarlar" },
@@ -425,7 +436,8 @@ public static class Locales
         {
             "zh-CN", new Dictionary<string, string>
             {
-                { "NameApp", "导入到 Calibre" },
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
                 { "MenuText", "导入到 Calibre" },
                 { "InvalidSelection", "文件选择无效" },
                 { "Settings", "设置" },

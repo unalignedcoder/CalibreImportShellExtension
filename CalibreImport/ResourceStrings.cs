@@ -26,6 +26,7 @@ namespace CalibreImport
         public static string LogEbooksRes;
         public static string MenuTextRes;
         public static string NameAppRes;
+        public static string NameAppShortRes;
         public static string NameSettingsFormRes;
         public static string NoLibrariesRes;
         public static string PathToCalibreRes;
@@ -78,6 +79,7 @@ namespace CalibreImport
                 LogEbooksRes = Locales.GetString("LogEbooks");
                 MenuTextRes = Locales.GetString("MenuText");
                 NameAppRes = Locales.GetString("NameApp");
+                NameAppShortRes = Locales.GetString("NameAppShort");
                 NameSettingsFormRes = Locales.GetString("NameSettingsForm");
                 NoLibrariesRes = Locales.GetString("NoLibraries");
                 PathToCalibreRes = Locales.GetString("PathToCalibre");

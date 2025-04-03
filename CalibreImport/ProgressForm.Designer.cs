@@ -1,4 +1,8 @@
-﻿namespace CalibreImport
+﻿using System;
+using System.Reflection;
+using System.Windows.Forms;
+
+namespace CalibreImport
 {
     partial class ProgressForm
     {
@@ -28,7 +32,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.borderlessGroupBox1 = new global::CalibreImport.BorderlessGroupBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressForm));
+            this.borderlessGroupBox1 = new System.Windows.Forms.GroupBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.borderlessGroupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +47,6 @@
             this.borderlessGroupBox1.Size = new System.Drawing.Size(366, 62);
             this.borderlessGroupBox1.TabIndex = 1;
             this.borderlessGroupBox1.TabStop = false;
-            this.borderlessGroupBox1.Text = ResourceStrings.ImportingRes;
             // 
             // progressBar
             // 
@@ -60,19 +64,21 @@
             this.ClientSize = new System.Drawing.Size(406, 87);
             this.Controls.Add(this.borderlessGroupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProgressForm";
-            this.Icon = new System.Drawing.Icon("CalibreImport/Resources/MainAppIcon.ico");
             this.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = ResourceStrings.NameAppRes;
             this.borderlessGroupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
         }
-
         #endregion
 
         private System.Windows.Forms.ProgressBar progressBar;
-        private BorderlessGroupBox borderlessGroupBox1;
+        private System.Windows.Forms.GroupBox borderlessGroupBox1;
+
     }
 }

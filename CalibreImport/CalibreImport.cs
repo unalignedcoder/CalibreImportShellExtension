@@ -14,17 +14,18 @@ using System.Threading;
 using System.Windows.Forms;
 using System;
 using System.Threading.Tasks;
+using System.Reflection;
 
 // Libri non sunt multiplicandi praeter necessitatem
 namespace CalibreImport
 {
-    //[ComVisible(true)]
-    [ClassInterface(ClassInterfaceType.None)]
-    [Guid("8E5CD5CA-64E0-479A-B62F-B1FC00FF0227"), ComVisible(true)]
-    [DisplayName("Calibre Import Shell Extension")]
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.None)]//, ComVisible(true)]
+    [Guid("8E5CD5CA-64E0-479A-B62F-B1FC00FF0227")]
+    [DisplayName("CalibreImport")]
     [COMServerAssociation(AssociationType.AllFiles)] //needed for Directory Opus, apparently.
     [COMServerAssociation(AssociationType.ClassOfExtension, ".epub", ".pdf", ".mobi", ".azw", ".azw3", ".fb2", ".djvu", ".lrf", ".rtf", ".txt", ".doc", ".docx", ".odt", ".htm", ".html", ".cbz", ".cbr", ".pdb", ".snb", ".tcr", ".zip", ".rar")]
-        public class CalibreImport : SharpContextMenu
+    public class CalibreImport : SharpContextMenu
     {
         private List<string> _supportedExtensions = new List<string>();
 
@@ -35,6 +36,9 @@ namespace CalibreImport
         private string automerge = CustomSettings.Config.AppSettings.Settings["autoMerge"].Value.ToLower() ?? "overwrite";
         private bool autoKillCalibre = bool.Parse(CustomSettings.Config.AppSettings.Settings["autoKillCalibre"].Value ?? "false");
         private string hiddenLibraries = CustomSettings.Config.AppSettings.Settings["hiddenLibraries"].Value ?? "";
+        private bool skipSuccessMessage = bool.Parse(CustomSettings.Config.AppSettings.Settings["skipSuccessMessage"].Value ?? "False");
+        private bool autoCalibreOpen = bool.Parse(CustomSettings.Config.AppSettings.Settings["autoCalibreOpen"].Value ?? "False");
+
 
         // List of Calibre-related processes to check
         private static readonly string[] CalibreProcesses = new[]
@@ -54,6 +58,8 @@ namespace CalibreImport
         private string calibrePath;
 
         // Constructor
+        // Initializes the CalibreImport instance, sets culture from settings,
+        // and loads paths and supported file extensions
         public CalibreImport()
         {
             // Load the saved language setting
@@ -71,6 +77,7 @@ namespace CalibreImport
         }
 
         // Initialize paths
+        // Sets up directories and file paths for Calibre binaries.
         private void InitializePaths()
         {
             dllDirectory = Path.GetDirectoryName(typeof(CalibreImport).Assembly.Location);
@@ -78,7 +85,8 @@ namespace CalibreImport
             calibrePath = Path.Combine(calibreFolder, "calibre.exe");
         }
 
-        // This is called by the SharpShell framework when determining whether to display the context menu.								
+        // This is called by the SharpShell framework when determining
+        // whether to display the context menu.								
         protected override bool CanShowMenu()
         {
             try
@@ -104,7 +112,8 @@ namespace CalibreImport
             }
         }
 
-        // Create the context menu entry
+        // Creates and displays the context menu for file import operations.
+        // Handles both submenu and single menu item display modes based on user settings.
         protected override ContextMenuStrip CreateMenu()
         {
             var menu = new ContextMenuStrip();
@@ -125,11 +134,21 @@ namespace CalibreImport
 
             libraries = libraries.Where(lib => !hiddenLibs.Contains(lib.Name)).ToList();
 
+            // Get the appropriate size for the icons based on the current DPI settings
+            Size iconSize;
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                float dpi = g.DpiX;
+                int size = (int)(16 * (
+                    dpi / 96)); // 16 is the base size for 96 DPI
+                iconSize = new Size(size, size);
+            }
+
             if (useSubmenu)
             {
                 var submenu = new ToolStripMenuItem(MenuText);
-                var calibreIcon = new Icon("CalibreImport/Resources/MainAppIcon.ico");
-                submenu.Image = calibreIcon.ToBitmap();
+                var mainAppIcon = new Icon(Properties.Resources.MainAppIcon, iconSize);
+                submenu.Image = mainAppIcon.ToBitmap(); // Set main menu icon
 
                 // Check if there are any invalid files
                 bool hasInvalidFiles = SelectedItemPaths.Any(p => !_supportedExtensions.Contains(Path.GetExtension(p).ToLower()));
@@ -146,14 +165,12 @@ namespace CalibreImport
                 // if the selection is valid
                 else
                 {
+                    var booksIcon = new Icon(Properties.Resources.ImportSubmenuIcon, iconSize);
                     foreach (var library in libraries)
                     {
                         var libraryItem = new ToolStripMenuItem(library.Name);
-                        //
-                        //libraryItem.Click += (sender, args) => ExecuteImport(library.Path);
                         libraryItem.Click += (sender, args) => ExecuteImportWithProgress(library.Path, submenu);
-                        var booksIcon = new Icon("CalibreImport/Resources/MainAppIcon.ico");
-                        libraryItem.Image = booksIcon.ToBitmap();
+                        libraryItem.Image = booksIcon.ToBitmap(); // Set the icon for each submenu item
                         submenu.DropDownItems.Add(libraryItem);
                     }
                 }
@@ -176,8 +193,8 @@ namespace CalibreImport
             {
                 Logger.LogThis("Creating single menu entry.", true);
                 var item = new ToolStripMenuItem(MenuText);
-                var calibreIcon = new Icon("CalibreImport/Resources/MainAppIcon.ico");
-                item.Image = calibreIcon.ToBitmap();
+                var mainAppIcon = new Icon(Properties.Resources.MainAppIcon, iconSize);
+                item.Image = mainAppIcon.ToBitmap();
                 item.Click += (sender, args) => ExecuteImport();
 
                 menu.Items.Add(item); // Add the item to the menu
@@ -186,8 +203,12 @@ namespace CalibreImport
             return menu;
         }
 
-        // Handles ebook import
-        private void ExecuteImport(string selectedLibrary = null, Action<int> reportProgress = null)
+        // Define a non-generic delegate type
+        public delegate void ReportProgressDelegate(int progress);
+
+        // Primary import handler that processes single or multiple files
+        // Manages Calibre process state and handles user interaction during import
+        private void ExecuteImport(string selectedLibrary = null, ReportProgressDelegate reportProgress = null)
         {
             try
             {
@@ -205,21 +226,30 @@ namespace CalibreImport
                     return;
                 }
 
+                Logger.LogThis($"Found {filePaths.Count} supported files.", true);
+
                 if (!File.Exists(calibredbPath))
                 {
                     Logger.LogThis($"Could not find calibredb.exe at {calibredbPath}. Please update the script with the correct path.");
+                    MessageBox.Show($"Could not find calibredb.exe at {calibredbPath}. Please check your Calibre installation path in settings.",
+                        ResourceStrings.NameAppRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+                Logger.LogThis("calibredb.exe found.", true);
+
                 if (IsCalibreRunning())
                 {
+                    Logger.LogThis("Calibre is running.", true);
+
                     if (autoKillCalibre)
                     {
+                        Logger.LogThis("Auto-killing Calibre.", true);
                         KillCalibre();
                     }
                     else
                     {
-                        // message prompt on whether to close calibre, otherwise break import
+                        Logger.LogThis("Prompting user to close Calibre.", true);
                         if (MessageBox.Show(ResourceStrings.CalibreRunningRes, ResourceStrings.CalibreRunning2Res, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             KillCalibre();
@@ -234,81 +264,275 @@ namespace CalibreImport
 
                 if (selectedLibrary == null)
                 {
+                    Logger.LogThis("No library selected, prompting user to select a library.", true);
+
                     var libraries = GetCalibreLibraries();
                     if (libraries == null || !libraries.Any())
                     {
-                        // Logger.LogThis("No Calibre libraries found. Ensure Calibre is configured properly.");
+                        Logger.LogThis("No Calibre libraries found. Ensure Calibre is configured properly.");
+                        MessageBox.Show("No Calibre libraries found. Ensure Calibre is configured properly.",
+                            ResourceStrings.NameAppRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    using (var importForm = new ImportForm(libraries))
-                    {
-                        if (importForm.ShowDialog() == DialogResult.OK)
+                    // Define the import function for the form to use
+                    Func<string, bool> importFunction = (libPath) => {
+                        // Import files individually with progress reporting
+                        int totalFiles = filePaths.Count;
+                        bool allSuccessful = true;
+
+                        for (int i = 0; i < totalFiles; i++)
                         {
-                            selectedLibrary = importForm.SelectedLibraryPath;
+                            Logger.LogThis($"Importing file {i + 1} of {totalFiles}: {filePaths[i]}", true);
+                            bool success = ImportSingleFile(libPath, filePaths[i]);
+                            if (!success) allSuccessful = false;
+
+                            // Report progress to the form
+                            reportProgress?.Invoke((i + 1) * 100 / totalFiles);
                         }
-                        else
-                        {
-                            Logger.LogThis("Library selection was canceled.");
-                            return;
-                        }
-                    }
-                }
 
-                int totalFiles = filePaths.Count;
-                for (int i = 0; i < totalFiles; i++)
-                {
-                    // Import each file
-                    ImportFileIntoCalibre(selectedLibrary, filePaths[i]);
+                        return allSuccessful;
+                    };
 
-                    // Report progress
-                    reportProgress?.Invoke((i + 1) * 100 / totalFiles);
-                }
-
-                var importSuccess = ImportFilesIntoCalibre(selectedLibrary, filePaths);
-
-                if (importSuccess)
-                {
-                    // MessageBox after successful import, prompt the user to start calibre
-                    var result = MessageBox.Show(ResourceStrings.ImportSuccessRes, ResourceStrings.NameAppRes, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
+                    using (var importForm = new ImportForm(libraries, importFunction))
                     {
-                        LaunchCalibre(selectedLibrary);
+                        importForm.Show();
+                        // The form will handle success messages and opening Calibre
                     }
                 }
                 else
                 {
-                    // otherwise invite to check log
-                    MessageBox.Show(ResourceStrings.ImportFailureRes, ResourceStrings.NameAppRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Direct import with the specified library
+                    // Method 1: Import files individually with progress reporting
+                    int totalFiles = filePaths.Count;
+                    bool allSuccessful = true;
+
+                    for (int i = 0; i < totalFiles; i++)
+                    {
+                        Logger.LogThis($"Importing file {i + 1} of {totalFiles}: {filePaths[i]}", true);
+                        bool success = ImportSingleFile(selectedLibrary, filePaths[i]);
+                        if (!success) allSuccessful = false;
+
+                        // Report progress
+                        reportProgress?.Invoke((i + 1) * 100 / totalFiles);
+                    }
+
+                    // Method 2: Import all files at once
+                    if (allSuccessful)
+                    {
+                        Logger.LogThis("Files imported successfully.", true);
+
+                        // Check if we should skip the success message
+                        if (skipSuccessMessage)
+                        {
+                            Logger.LogThis("Skipping success message due to user settings.", true);
+
+                            if (autoCalibreOpen)
+                            {
+                                Logger.LogThis("Auto-opening Calibre due to user settings.", true);
+                                LaunchCalibre(selectedLibrary);
+                            }
+                            else
+                            {
+                                Logger.LogThis("Not opening Calibre due to user settings.", true);
+                            }
+                        }
+                        else
+                        {
+                            // Show success message as before
+                            var result = MessageBox.Show(ResourceStrings.ImportSuccessRes, ResourceStrings.NameAppRes, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == DialogResult.Yes)
+                            {
+                                LaunchCalibre(selectedLibrary);
+                            }
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)
             {
                 Logger.LogThis($"Error executing import: {ex.Message}");
+                MessageBox.Show($"Error executing import: {ex.Message}", ResourceStrings.NameAppRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Helper method to import a single file and return success/failure
+        private bool ImportSingleFile(string libraryPath, string filePath)
+        {
+            try
+            {
+                Logger.LogThis($"Importing file: {filePath} into library: {libraryPath}", true);
+
+                var arguments = $"add --library-path \"{libraryPath}\" --automerge {automerge} \"{filePath}\"";
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = calibredbPath,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                var process = Process.Start(startInfo);
+                var output = process.StandardOutput.ReadToEnd();
+                var error = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+
+                Logger.LogThis($"Process output: {output}", true);
+                Logger.LogThis($"Process error: {error}", true);
+
+                if (process.ExitCode == 0)
+                {
+                    Logger.LogThis($"Successfully imported file: {filePath}");
+                    return true;
+                }
+                else
+                {
+                    Logger.LogThis($"Failed to import file: {filePath}. Error: {error}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogThis($"Error importing file: {filePath}. Exception: {ex.Message}");
+                return false;
             }
         }
 
         // handles ebook import with progress bar
         private void ExecuteImportWithProgress(string selectedLibrary, ToolStripMenuItem parentMenu)
         {
+            Logger.LogThis("Starting ExecuteImportWithProgress method.", true);
+
             var progressForm = new ProgressForm();
             progressForm.Show();
 
             Task.Run(() =>
             {
-                ExecuteImport(selectedLibrary, progress =>
+                try
                 {
-                    progressForm.UpdateProgress(progress);
-                });
+                    // For single file imports, we need more granular progress updates
+                    var filePaths = SelectedItemPaths.Where(p =>
+                        _supportedExtensions.Contains(Path.GetExtension(p).ToLower()))
+                        .ToList();
 
-                progressForm.Invoke(new Action(() =>
+                    if (filePaths.Count == 1)
+                    {
+                        // Set initial progress to show activity
+                        progressForm.UpdateProgress(10);
+
+                        // Special handling for single file import
+                        var success = ImportSingleFileWithProgress(selectedLibrary, filePaths[0],
+                            (subProgress) => progressForm.UpdateProgress(subProgress));
+
+                        // Ensure the progress bar shows completion
+                        progressForm.UpdateProgress(100);
+                    }
+                    else
+                    {
+                        // Multiple files - use standard progress reporting
+                        ExecuteImport(selectedLibrary, progress =>
+                        {
+                            Logger.LogThis($"Updating progress to {progress}%.", true);
+                            progressForm.UpdateProgress(progress);
+                        });
+                    }
+
+                    progressForm.Invoke(new Action(() =>
+                    {
+                        Logger.LogThis("Closing ProgressForm.", true);
+                        progressForm.Close();
+                    }));
+                }
+                catch (Exception ex)
                 {
-                    progressForm.Close();
-                }));
+                    Logger.LogThis($"Error in ExecuteImportWithProgress: {ex.Message}");
+                    progressForm.Invoke(new Action(() =>
+                    {
+                        progressForm.Close();
+                    }));
+                }
             });
         }
 
-        // Load ebook extensions supported by Calibre from Registry														   
+        // Modified import method for single files with progress reporting
+        private bool ImportSingleFileWithProgress(string libraryPath, string filePath, Action<int> reportProgress)
+        {
+            try
+            {
+                Logger.LogThis($"Importing single file with progress: {filePath} into library: {libraryPath}", true);
+
+                // Report starting the import
+                reportProgress(20);
+
+                var arguments = $"add --library-path \"{libraryPath}\" --automerge {automerge} \"{filePath}\"";
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = calibredbPath,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                reportProgress(40); // Starting process
+
+                var process = Process.Start(startInfo);
+
+                reportProgress(50); // Process started
+
+                // Create a timer to update progress while waiting for the process
+                var processTimer = new System.Timers.Timer(200);
+                processTimer.Elapsed += (s, e) => {
+                    if (!process.HasExited)
+                    {
+                        // Alternate between 60% and 80% to show activity
+                        int CalculateProgress(int current) =>
+                            current < 80 ? current + 5 : 60;
+
+                        int currentProgress = 60;
+                        currentProgress = CalculateProgress(currentProgress);
+                        reportProgress(currentProgress);
+                    }
+                };
+                processTimer.Start();
+
+                var output = process.StandardOutput.ReadToEnd();
+                var error = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+
+                // Stop the timer
+                processTimer.Stop();
+                processTimer.Dispose();
+
+                reportProgress(90); // Process completed
+
+                Logger.LogThis($"Process output: {output}", true);
+                Logger.LogThis($"Process error: {error}", true);
+
+                if (process.ExitCode == 0)
+                {
+                    Logger.LogThis($"Successfully imported file: {filePath}");
+                    reportProgress(100); // Fully complete
+                    return true;
+                }
+                else
+                {
+                    Logger.LogThis($"Failed to import file: {filePath}. Error: {error}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogThis($"Error importing file: {filePath}. Exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        // Load ebook extensions supported by Calibre from Registry	   
         private void LoadSupportedExtensions()
         {
             using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\calibre\calibre64bit\Capabilities\FileAssociations"))
@@ -355,7 +579,8 @@ namespace CalibreImport
             return CalibreProcesses.Any(processName => Process.GetProcessesByName(processName).Any());
         }
 
-        // Kill Calibre-related processes
+        // Attempts to terminate all Calibre-related processes
+        // Prompts for user confirmation unless auto-kill is enabled
         private void KillCalibre()
         {
             var runningProcesses = CalibreProcesses
@@ -389,35 +614,7 @@ namespace CalibreImport
         // Get list of Calibre libraries from gui.json											  
         private List<CalibreLibrary> GetCalibreLibraries()
         {
-            try
-            {
-                var calibreConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "calibre");
-                var guiFilePath = Path.Combine(calibreConfigPath, "gui.json");
-
-                if (!File.Exists(guiFilePath))
-                {
-                    Logger.LogThis($"Calibre gui.json not found at {guiFilePath}. Cannot extract list of Libraries.");
-                    return null;
-                }
-
-                var guiJson = JObject.Parse(File.ReadAllText(guiFilePath));
-                var libraries = guiJson["library_usage_stats"]?.ToObject<Dictionary<string, object>>()?.Keys
-                    .Select(path => new CalibreLibrary { Path = path, Name = Path.GetFileName(path) })
-                    .ToList();
-
-                if (libraries == null || !libraries.Any())
-                {
-                    Logger.LogThis("No libraries found in Calibre GUI settings.");
-                    return null;
-                }
-
-                return libraries;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogThis($"Error retrieving Calibre libraries: {ex.Message}");
-                return null;
-            }
+            return CalibreLibraryManager.GetLibraries();
         }
 
         // Open the Settings form
@@ -425,95 +622,15 @@ namespace CalibreImport
         {
             try
             {
-                Logger.LogThis("Attempting to show Settings form.",true);
-                using (var form = new SettingsForm())
-                {
-                    form.StartPosition = FormStartPosition.Manual;
-                    form.Location = Cursor.Position;
-                    form.ShowDialog();
-                }
+                Logger.LogThis("Attempting to show Settings form.", true);
+                var form = new SettingsForm();
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.Show();
                 Logger.LogThis("Settings form displayed successfully.", true);
             }
             catch (Exception ex)
             {
                 Logger.LogThis($"Error showing Settings form: {ex.Message}");
-            }
-        }
-
-        // Import multiple ebook files into Calibre library										  
-        private bool ImportFilesIntoCalibre(string libraryPath, List<string> filePaths)
-        {
-            try
-            {
-                var arguments = $"add --library-path \"{libraryPath}\" --automerge {automerge} {string.Join(" ", filePaths.Select(f => $"\"{f}\""))}";
-                var startInfo = new ProcessStartInfo
-                {
-                    FileName = calibredbPath,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
-                };
-
-                var process = Process.Start(startInfo);
-                var output = process.StandardOutput.ReadToEnd();
-                var error = process.StandardError.ReadToEnd();
-                process.WaitForExit();
-
-                if (process.ExitCode == 0)
-                {
-                    Logger.LogThis($"Successfully imported files: {string.Join(", ", filePaths)}");
-                    return true;
-                }
-                else
-                {
-                    Logger.LogThis($"Failed to import files: {error}");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogThis($"Error during file import: {ex.Message}");
-                return false;
-            }
-        }
-
-        // Import one single ebook file into Calibre library			
-        private void ImportFileIntoCalibre(string libraryPath, string filePath)
-        {
-            try
-            {
-                Logger.LogThis($"Importing file: {filePath} into library: {libraryPath}", true);
-
-                var arguments = $"add --library-path \"{libraryPath}\" --automerge {automerge} \"{filePath}\"";
-                var startInfo = new ProcessStartInfo
-                {
-                    FileName = calibredbPath,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
-                };
-
-                var process = Process.Start(startInfo);
-                var output = process.StandardOutput.ReadToEnd();
-                var error = process.StandardError.ReadToEnd();
-                process.WaitForExit();
-
-                if (process.ExitCode == 0)
-                {
-                    Logger.LogThis($"Successfully imported file: {filePath}");
-                }
-                else
-                {
-                    Logger.LogThis($"Failed to import file: {filePath}. Error: {error}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogThis($"Error importing file: {filePath}. Exception: {ex.Message}");
             }
         }
 
@@ -562,6 +679,7 @@ namespace CalibreImport
             try
             {
                 Logger.LogThis("Unregistering shell extension...", true);
+
                 KeyRegistryExtensions.UnregisterExtension(t.GUID, GetFileExtensions());
                 Logger.LogThis("Shell extension unregistered successfully.", true);
             }
@@ -588,6 +706,7 @@ namespace CalibreImport
             Logger.LogThis("Starting RegisterExtension...", true);
             try
             {
+                // Registering the CLSID is not needed as it is done by SharpShell																	  
                 // Register the context menu handler for each extension
                 foreach (var ext in extensions)
                 {
@@ -633,12 +752,12 @@ namespace CalibreImport
                     try
                     {
                         Registry.CurrentUser.DeleteSubKeyTree(shellExKeyPath, false);
-                        //Logger.LogThis($"Unregistered context menu handler for extension: {ext}", true);
+                        Logger.LogThis($"Unregistered context menu handler for extension: {ext}", true);
                     }
                     catch (ArgumentException)
                     {
                         // Key does not exist, ignore
-                        //Logger.LogThis($"Registry key does not exist for extension: {ext}", true);
+                        Logger.LogThis($"Registry key does not exist for extension: {ext}", true);
                     }
                 }
 
@@ -668,5 +787,4 @@ namespace CalibreImport
             }
         }
     }
-
 }

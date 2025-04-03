@@ -9,33 +9,39 @@ namespace CalibreImport
     {
         private static Configuration config;
 
+        public static readonly string assemblyName;
+
         static CustomSettings()
         {
-            string configFilePath;
-            string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string assemblyFolder = Path.GetDirectoryName(typeof(CalibreImport).Assembly.Location);
-            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-            string configFileName = $"{assemblyName}.config";
-            string portableFilePath = Path.Combine(assemblyFolder, "portable");
+            // Load AssemblyName
+            assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
-            if (File.Exists(portableFilePath))
+            string ConfigName = $"{assemblyName}.config";
+            string ConfDirectory;
+
+            if (CheckPortable.IsPortable())
             {
-                configFilePath = Path.Combine(assemblyFolder, configFileName);
-                //Logger.LogThis("Portable mode detected. Using configuration file in the same folder as the DLL.", true);
+                ConfDirectory = Path.GetDirectoryName(typeof(CustomSettings).Assembly.Location);
             }
             else
             {
-                configFilePath = Path.Combine(appDataFolder, ResourceStrings.NameAppRes, configFileName);
-                //Logger.LogThis("Portable mode not detected. Using configuration file in AppData.", true);
+                ConfDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), assemblyName);
             }
 
-            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap { ExeConfigFilename = configFilePath };
+            // Ensure the directory exists
+            if (!Directory.Exists(ConfDirectory))
+            {
+                Directory.CreateDirectory(ConfDirectory);
+            }
+
+            string configFilePath = Path.Combine(ConfDirectory, ConfigName);
 
             if (!File.Exists(configFilePath))
             {
                 CreateDefaultConfig(configFilePath);
             }
 
+            var configMap = new ExeConfigurationFileMap { ExeConfigFilename = configFilePath };
             config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
         }
 
@@ -58,8 +64,9 @@ namespace CalibreImport
             config.AppSettings.Settings.Add("autoKillCalibre", "False");
             config.AppSettings.Settings.Add("autoMerge", "overwrite");
             config.AppSettings.Settings.Add("hiddenLibraries", "");
-            config.AppSettings.Settings.Add("logName", "CalibreImport.log");
             config.AppSettings.Settings.Add("language", "en");
+            config.AppSettings.Settings.Add("skipSuccessMessage", "False");
+            config.AppSettings.Settings.Add("autoCalibreOpen", "False");
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
         }

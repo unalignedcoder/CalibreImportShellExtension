@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="NameApp" xml:space="preserve">
+    <value>Calibre Import</value>
+  </data>
+	<data name="NameAppShort" xml:space="preserve">
+    <value>CalibreImport</value>
+  </data>
+	<data name="MenuText" xml:space="preserve">
+    <value>Import To Calibre</value>
+  </data>
+	<data name="InvalidSelection" xml:space="preserve">
+    <value>Invalid selection of files</value>
+  </data>
+	<data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+	<data name="CalibreRunning" xml:space="preserve">
+    <value>calibre.exe is running. Would you like to terminate it?</value>
+  </data>
+	<data name="ImportSuccess" xml:space="preserve">
+    <value>Files imported successfully. Would you like to launch Calibre?</value>
+  </data>
+	<data name="ImportFailure" xml:space="preserve">
+    <value>Failed to import files. Check the log for details.</value>
+  </data>
+	<data name="ImportBtn" xml:space="preserve">
+    <value>Import</value>
+  </data>
+	<data name="Importing" xml:space="preserve">
+    <value>Importing...</value>
+  </data>
+	<data name="InvalidFiles" xml:space="preserve">
+    <value>Invalid selection of files</value>
+  </data>
+	<data name="CalibreProcessesRunning" xml:space="preserve">
+    <value>The following Calibre-related processes are running and will be terminated:</value>
+  </data>
+	<data name="DoYouWantToProceed" xml:space="preserve">
+    <value>Do you want to proceed?</value>
+  </data>
+	<data name="CalibreRunning2" xml:space="preserve">
+    <value>Calibre process running</value>
+  </data>
+	<data name="ErrorLaunching" xml:space="preserve">
+    <value>Error launching Calibre</value>
+  </data>
+	<data name="UseSubmenu" xml:space="preserve">
+    <value>Use Submenu rather than a dialog</value>
+  </data>
+	<data name="LogEbooks" xml:space="preserve">
+    <value>Log eBooks being imported</value>
+  </data>
+	<data name="AlsoDebugLog" xml:space="preserve">
+    <value>also log for debugging</value>
+  </data>
+	<data name="KillCalibre" xml:space="preserve">
+    <value>Auto close Calibre before importing</value>
+  </data>
+	<data name="HideLibraries" xml:space="preserve">
+    <value>Check libraries to hide them from submenu</value>
+  </data>
+	<data name="SetEntryName" xml:space="preserve">
+    <value>Name of the context menu entry:</value>
+  </data>
+	<data name="PathToCalibre" xml:space="preserve">
+    <value>Path to the Calibre folder:</value>
+  </data>
+	<data name="DuplicatesWhat" xml:space="preserve">
+    <value>What to do with duplicate books:</value>
+  </data>
+	<data name="NameSettingsForm" xml:space="preserve">
+    <value>Import to Calibre Settings:</value>
+  </data>
+	<data name="RegistrationFailed" xml:space="preserve">
+    <value>Registration failed</value>
+  </data>
+	<data name="NoLibraries" xml:space="preserve">
+    <value>No Calibre libraries found.</value>
+  </data>
+	<data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+	<data name="SettingsSaved" xml:space="preserve">
+    <value>Settings saved successfully.</value>
+  </data>
+	<data name="ImportForm" xml:space="preserve">
+    <value>Calibre Import</value>
+  </data>
+	<data name="SelectLibrary" xml:space="preserve">
+    <value>Select Calibre library</value>
+  </data>
+	<data name="PleaseSelectLibrary" xml:space="preserve">
+    <value>Please select a library.</value>
+  </data>
+	<data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+	<data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="SelectLanguage" xml:space="preserve">
+    <value>Select language:</value>
+  </data>
+<data name="MainAppIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MainAppIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+</data>
+<data name="ImportSubmenuIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImportSubmenuIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+</data>
+
+</root>
