@@ -36,7 +36,7 @@ The Settings window sets some important options.
 7) Whether to auto-kill Calibre or prompt the user about it (the import process cannot go through if Calibre or any Calibre-related app is running.)
 
 ## Localization
-The app is AI-translated in the following langauges:
+The app is translated in the following langauges:
   * Arabic
   * Chinese
   * Czech
