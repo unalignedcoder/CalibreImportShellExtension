@@ -37,6 +37,7 @@ The Settings window sets some important options.
 
 ## Localization
 The app is AI-translated in the following langauges:
+  * Arabic
   * Chinese
   * Czech
   * English
@@ -46,7 +47,7 @@ The app is AI-translated in the following langauges:
   * Japanese
   * Korean
   * Polish
-  * Portoguese
+  * Portuguese
   * Russian
   * Spanish
   * Turkish
