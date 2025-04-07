@@ -15,13 +15,13 @@ Simply right-click on any eBook, or group of eBooks, and select "Import to Calib
 
 ![image](https://github.com/user-attachments/assets/cc6b9394-14ff-4110-93e3-70d715ddf9aa)
 
-The files can have any of the Calibre-supported eBook file types. Calibre Import will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
-
-`.epub, .pdf, .mobi, .azw, .azw3, .fb2, .djvu, .lrf, .rtf, .txt, .doc, .docx, .odt, .htm, .html, .cbz, .cbr, .pdb, .snb, .tcr, .zip, .rar`.
-
 Alternatively, the user can use a dialog window rather than the submenu. The functionality is the same.
 
 ![image](https://github.com/user-attachments/assets/1598cf4a-f025-428a-806f-ed44d40578f2)
+
+The selected files can have any of the Calibre-supported eBook file types. Calibre Import will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
+
+`.epub, .pdf, .mobi, .azw, .azw3, .fb2, .djvu, .lrf, .rtf, .txt, .doc, .docx, .odt, .htm, .html, .cbz, .cbr, .pdb, .snb, .tcr, .zip, .rar`.
 
 Once the import has concluded, the user will be prompted to start Calibre and directly open the library into which the ebooks have been imported.
 
