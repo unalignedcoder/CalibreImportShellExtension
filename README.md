@@ -6,6 +6,9 @@
 
 It allows to intelligently import one or multiple eBook files into Calibre directly from the Windows Explorer context menu. More significantly, it seamlessly enables the user to choose the target library for the eBooks before importing. 
 
+&nbsp;
+
+<p align=center>Why, thank you for asking!<br />👉 You can donate to this project <a href="https://www.buymeacoffee.com/unalignedcoder" target="_blank" title="buymeacoffee.com">here</a></p>
 
 ## Usage
 Simply right-click on any eBook, or group of eBooks, and select "Import to Calibre".  The entry submenu will offer a list of all Calibre libraries presently in the system. Select the one into which you want to import the books.
@@ -24,7 +27,7 @@ Once the import has concluded, the user will be prompted to start Calibre and di
 
 ## Settings
 
-Options can be changed to suit your needs. Some of the settings are: 
+A number of options can be set to suit your needs. In particular: 
 
 * Hide libraries from the context submenu (this obviously doesn't affect the library visibility in Calibre!)
 * How the import process should behave with duplicates. The following options are established by Calibre: `overwrite` (the new book will replace the old); `ignore` (the book will not be imported); `new_record` (a duplicate entry will be created). Such settings are valid for all import operations, and cannot be modified on a per-book basis.
@@ -67,6 +70,10 @@ This project has only been tested on x64 machines, with Windows 10/11 and calibr
  1) Download the [latest release](https://github.com/unalignedcoder/CalibreImportShellExtension/releases).
  2) Extract the files to a folder of your choice.
  3) Run the `Setup.ps1` Powershell script. The script will register the Dll, add the necessary Registry entries and optionally restart Explorer, so as to make the new context menu entry immediately available. Read inside the Setup script for more instructions.
+
+&nbsp;
+
+<p align=center>👉 You can donate to this project <a href="https://www.buymeacoffee.com/unalignedcoder" target="_blank" title="buymeacoffee.com">here</a></p>
 
 ## Uninstallation
 If you installed via Setup executable, just uninstall from the "Apps" settings, or "Programs and Features" Control panel entry.
