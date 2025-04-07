@@ -1,7 +1,9 @@
 using System;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 namespace CalibreImport
 {
@@ -63,11 +65,11 @@ namespace CalibreImport
             config.AppSettings.Settings.Add("calibreFolder", @"C:\Program Files\Calibre2");
             config.AppSettings.Settings.Add("useSubmenu", "True");
             config.AppSettings.Settings.Add("logThis", "True");
-            config.AppSettings.Settings.Add("verboseLog", "False");
+            config.AppSettings.Settings.Add("verboseLog", "True");
             config.AppSettings.Settings.Add("autoKillCalibre", "False");
             config.AppSettings.Settings.Add("autoMerge", "overwrite");
             config.AppSettings.Settings.Add("hiddenLibraries", "");
-            config.AppSettings.Settings.Add("language", "en");
+            config.AppSettings.Settings.Add("language", "");
             config.AppSettings.Settings.Add("skipSuccessMessage", "False");
             config.AppSettings.Settings.Add("autoCalibreOpen", "False");
             config.Save(ConfigurationSaveMode.Modified);

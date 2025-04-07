@@ -42,7 +42,7 @@ jobs:
       run: |
         git fetch origin master
         git checkout master
-        CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- CalibreImport/ReleaseFiles/CalibreImport.config CalibreImport/ReleaseFiles/*.dll CalibreImport/ReleaseFiles/Setup.ps1 CalibreImport/ReleaseFiles/CalibreImportSetup.exe)
+        CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- CalibreImport/ReleaseFiles/*.dll CalibreImport/ReleaseFiles/Setup.ps1 CalibreImport/ReleaseFiles/CalibreImportSetup.exe)
         echo "Changed files: $CHANGED_FILES"
         if [ -n "$CHANGED_FILES" ]; then
           echo "FILES_CHANGED=true" >> $GITHUB_ENV
@@ -122,12 +122,13 @@ jobs:
           exit 1
         fi
         
-        if [ ! -f "$BUILD_PATH/CalibreImport.config" ] || [ ! -f "$BUILD_PATH/Setup.ps1" ]; then
-          echo "Warning: Some config files are missing. Continuing anyway."
-        fi
+        # no need to include the default config file, the app will create it dynamically.
+        # if [ ! -f "$BUILD_PATH/CalibreImport.config" ] || [ ! -f "$BUILD_PATH/Setup.ps1" ]; then
+        #   echo "Warning: Some config files are missing. Continuing anyway."
+        # fi
         
         # Copy files with error handling
-        cp $BUILD_PATH/*.dll $BUILD_PATH/CalibreImport.config $BUILD_PATH/Setup.ps1 release/ || {
+        cp $BUILD_PATH/*.dll $BUILD_PATH/Setup.ps1 release/ || {
           echo "Warning: Some files could not be copied. Continuing with available files."
         }
         

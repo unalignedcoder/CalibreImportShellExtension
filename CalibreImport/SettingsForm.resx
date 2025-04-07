@@ -130,13 +130,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>318, 22</value>
+    <value>315, 22</value>
   </data>
-  <data name="btnSave.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>20, 20, 20, 20</value>
+  <data name="btnSave.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>140, 40</value>
   </data>
   <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 68</value>
+    <value>140, 45</value>
   </data>
   <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -166,13 +166,13 @@
     <value>Right</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 22</value>
+    <value>175, 22</value>
   </data>
-  <data name="btnCancel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>20, 20, 20, 20</value>
+  <data name="btnCancel.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>140, 40</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 68</value>
+    <value>140, 45</value>
   </data>
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -199,7 +199,7 @@
     <value>3, 22</value>
   </data>
   <data name="comboBoxLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 28</value>
+    <value>452, 28</value>
   </data>
   <data name="comboBoxLanguage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -223,7 +223,7 @@
     <value>3, 62</value>
   </data>
   <data name="chkAutoKillCalibre.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 40</value>
+    <value>452, 40</value>
   </data>
   <data name="chkAutoKillCalibre.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -250,7 +250,7 @@
     <value>3, 102</value>
   </data>
   <data name="chkLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 40</value>
+    <value>452, 40</value>
   </data>
   <data name="chkLog.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -280,7 +280,7 @@
     <value>20, 0, 0, 0</value>
   </data>
   <data name="chkVerbose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 40</value>
+    <value>452, 40</value>
   </data>
   <data name="chkVerbose.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -307,7 +307,7 @@
     <value>3, 22</value>
   </data>
   <data name="chkUseSubmenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 40</value>
+    <value>452, 40</value>
   </data>
   <data name="chkUseSubmenu.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -334,7 +334,7 @@
     <value>3, 22</value>
   </data>
   <data name="cmbAutomerge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 28</value>
+    <value>452, 28</value>
   </data>
   <data name="cmbAutomerge.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -358,7 +358,7 @@
     <value>3, 22</value>
   </data>
   <data name="txtCalibreFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 26</value>
+    <value>452, 26</value>
   </data>
   <data name="txtCalibreFolder.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -382,7 +382,7 @@
     <value>3, 22</value>
   </data>
   <data name="clbLibraries.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 211</value>
+    <value>452, 165</value>
   </data>
   <data name="clbLibraries.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -403,13 +403,13 @@
     <value>Top</value>
   </data>
   <data name="groupLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 398</value>
+    <value>10, 351</value>
   </data>
   <data name="groupLanguage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 20</value>
   </data>
   <data name="groupLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 65</value>
+    <value>458, 65</value>
   </data>
   <data name="groupLanguage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -433,10 +433,10 @@
     <value>Bottom</value>
   </data>
   <data name="groupButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 718</value>
+    <value>10, 704</value>
   </data>
   <data name="groupButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 93</value>
+    <value>458, 70</value>
   </data>
   <data name="groupButtons.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -457,13 +457,13 @@
     <value>Top</value>
   </data>
   <data name="groupDuplicate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 333</value>
+    <value>10, 286</value>
   </data>
   <data name="groupDuplicate.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 20</value>
   </data>
   <data name="groupDuplicate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 65</value>
+    <value>458, 65</value>
   </data>
   <data name="groupDuplicate.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -493,7 +493,7 @@
     <value>3, 3, 3, 20</value>
   </data>
   <data name="groupHiddenLibraries.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 248</value>
+    <value>458, 201</value>
   </data>
   <data name="groupHiddenLibraries.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -513,11 +513,74 @@
   <data name="&gt;&gt;groupHiddenLibraries.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="&gt;&gt;chkOpenCalibreAfterImport.Name" xml:space="preserve">
+    <value>chkOpenCalibreAfterImport</value>
+  </data>
+  <data name="&gt;&gt;chkOpenCalibreAfterImport.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkOpenCalibreAfterImport.Parent" xml:space="preserve">
+    <value>groupOtherOptions</value>
+  </data>
+  <data name="&gt;&gt;chkOpenCalibreAfterImport.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.Name" xml:space="preserve">
+    <value>chkSkipSuccessMessage</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.Parent" xml:space="preserve">
+    <value>groupOtherOptions</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupOtherOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="groupOtherOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 416</value>
+  </data>
+  <data name="groupOtherOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>458, 259</value>
+  </data>
+  <data name="groupOtherOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupOtherOptions.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="&gt;&gt;groupOtherOptions.Name" xml:space="preserve">
+    <value>groupOtherOptions</value>
+  </data>
+  <data name="&gt;&gt;groupOtherOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupOtherOptions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupOtherOptions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="chkOpenCalibreAfterImport.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="chkOpenCalibreAfterImport.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.Name" xml:space="preserve">
+    <value>chkSkipSuccessMessage</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.Parent" xml:space="preserve">
+    <value>groupOtherOptions</value>
+  </data>
+  <data name="&gt;&gt;chkSkipSuccessMessage.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="chkOpenCalibreAfterImport.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 224</value>
@@ -526,7 +589,7 @@
     <value>20, 0, 0, 0</value>
   </data>
   <data name="chkOpenCalibreAfterImport.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>452, 24</value>
   </data>
   <data name="chkOpenCalibreAfterImport.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -556,7 +619,7 @@
     <value>3, 182</value>
   </data>
   <data name="chkSkipSuccessMessage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 42</value>
+    <value>452, 42</value>
   </data>
   <data name="chkSkipSuccessMessage.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -576,44 +639,17 @@
   <data name="&gt;&gt;chkSkipSuccessMessage.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupOtherOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="groupOtherOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 463</value>
-  </data>
-  <data name="groupOtherOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 259</value>
-  </data>
-  <data name="groupOtherOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="groupOtherOptions.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="&gt;&gt;groupOtherOptions.Name" xml:space="preserve">
-    <value>groupOtherOptions</value>
-  </data>
-  <data name="&gt;&gt;groupOtherOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupOtherOptions.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupOtherOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="groupPath.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
   <data name="groupPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 268</value>
+    <value>10, 221</value>
   </data>
   <data name="groupPath.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 20</value>
   </data>
   <data name="groupPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 65</value>
+    <value>458, 65</value>
   </data>
   <data name="groupPath.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -640,7 +676,7 @@
     <value>144, 144</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>436, 831</value>
+    <value>478, 794</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

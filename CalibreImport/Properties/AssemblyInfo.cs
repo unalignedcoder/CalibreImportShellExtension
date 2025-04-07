@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Calibre Import Shell Extension")]
+[assembly: AssemblyTitle("Calibre Import shell extension")]
 [assembly: AssemblyDescription("This shell extension allows to intelligently import multiple eBook files into Calibre directly from the Windows Explorer context menu.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tuscoss")]
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.0.7.7")]
-[assembly: AssemblyFileVersion("0.0.7.7")]
+[assembly: AssemblyVersion("0.1.0.8")]
+[assembly: AssemblyFileVersion("0.1.0.8")]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,7 +16,6 @@ namespace CalibreImport
         private bool skipSuccessMessage = bool.Parse(CustomSettings.Config.AppSettings.Settings["skipSuccessMessage"].Value ?? "False");
         private string autoCalibreOpen = CustomSettings.Config.AppSettings.Settings["autoCalibreOpen"].Value ?? "ask";
 
-
         // Add a delegate for the import function
         private Func<string, bool> _importFunction;
 
@@ -23,6 +23,9 @@ namespace CalibreImport
 
         public ImportForm()
         {
+            // Set application culture before initializing components
+            CultureManager.SetApplicationCulture();
+
             InitializeComponent();
             ApplyResourceStrings();
             PopulateLibraries();
@@ -34,6 +37,9 @@ namespace CalibreImport
 
         public ImportForm(List<CalibreLibrary> libraries, Func<string, bool> importFunction = null)
         {
+            // Set application culture before initializing components
+            CultureManager.SetApplicationCulture();
+
             _libraries = libraries;
             _importFunction = importFunction;
             InitializeComponent();
@@ -47,15 +53,18 @@ namespace CalibreImport
 
         private void PopulateLibraries()
         {
+            // Ensure culture is set correctly before displaying any messages
+            CultureManager.SetApplicationCulture();
+
             var libraries = _libraries ?? CalibreLibraryManager.GetLibraries();
             if (libraries == null)
             {
-                MessageBox.Show("No libraries found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ResourceStrings.NoLibrariesRes, ResourceStrings.ErrorRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             // Retrieve hidden libraries from settings
-            string hiddenSetting = CustomSettings.Config.AppSettings.Settings["language"].Value;
+            string hiddenSetting = CustomSettings.Config.AppSettings.Settings["hiddenLibraries"].Value ?? "";
             var hiddenList = hiddenSetting.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
                                           .Select(s => s.Trim())
                                           .ToList();
@@ -70,6 +79,9 @@ namespace CalibreImport
         // the import button click event handler
         private void btnImport_Click(object sender, EventArgs e)
         {
+            // Ensure culture is set correctly before proceeding
+            CultureManager.SetApplicationCulture();
+
             if (listBoxLibraries.SelectedItem is CalibreLibrary selectedLibrary)
             {
                 SelectedLibraryPath = selectedLibrary.Path;
@@ -97,6 +109,9 @@ namespace CalibreImport
                             // Show success message and prompt to open Calibre
                             this.Invoke(new Action(() =>
                             {
+                                // Ensure culture is set correctly before displaying messages
+                                CultureManager.SetApplicationCulture();
+
                                 if (skipSuccessMessage)
                                 {
                                     // Handle auto open based on settings
@@ -129,6 +144,9 @@ namespace CalibreImport
                         {
                             this.Invoke(new Action(() =>
                             {
+                                // Ensure culture is set correctly before displaying error messages
+                                CultureManager.SetApplicationCulture();
+
                                 MessageBox.Show(
                                     $"Error during import: {ex.Message}",
                                     ResourceStrings.ErrorRes,
@@ -156,21 +174,27 @@ namespace CalibreImport
             }
         }
 
+        // the cancel button click event handler
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
+        // the settings button click event handler
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            using (var settingsForm = new SettingsForm())
-            {
-                settingsForm.StartPosition = FormStartPosition.Manual;
-                settingsForm.Location = Cursor.Position;
-                settingsForm.Show();
-            }
+            // Ensure culture is set correctly before showing settings form
+            CultureManager.SetApplicationCulture();
+
+            var settingsForm = new SettingsForm();
+            settingsForm.ShowDialog();
+
+            // Re-apply culture after settings form closes in case it was changed
+            CultureManager.SetApplicationCulture();
+            ApplyResourceStrings();
         }
 
+        // the list box selected index changed event handler
         private void StartImportProcess()
         {
             bool success = false;
@@ -205,6 +229,7 @@ namespace CalibreImport
             }
         }
 
+        // the method to update the progress bar
         public void UpdateProgress(int progress)
         {
             if (progressBar1.InvokeRequired)
@@ -217,10 +242,14 @@ namespace CalibreImport
             }
         }
 
+        // the method to launch Calibre with the selected library
         private void LaunchCalibre(string libraryPath)
         {
             try
             {
+                // Ensure culture is set correctly before displaying any messages
+                CultureManager.SetApplicationCulture();
+
                 string calibreFolder = CustomSettings.Config.AppSettings.Settings["calibreFolder"].Value ?? @"C:\Program Files\Calibre2\";
                 string calibrePath = Path.Combine(calibreFolder, "calibre.exe");
 
@@ -242,6 +271,27 @@ namespace CalibreImport
             }
         }
 
+        // the form load event handler
+        private void ImportForm_Load(object sender, EventArgs e)
+        {
+            // Ensure culture is set correctly when form loads
+            CultureManager.SetApplicationCulture();
+            ApplyResourceStrings();
+        }
+
+        // the method to apply dynamic resource strings to the form elements
+        private void ApplyResourceStrings()
+        {
+            // Apply resource strings to form elements
+            this.Text = ResourceStrings.ImportFormRes;
+            this.btnImport.Text = ResourceStrings.ImportBtnRes;
+            this.btnCancel.Text = ResourceStrings.CancelRes;
+            this.btnSettings.Text = ResourceStrings.SettingsRes;
+            // this.labelSelectLibrary.Text = ResourceStrings.SelectLibraryRes;
+
+            CultureManager.ApplyRightToLeftLayout(this);
+        }
+
         // Event handler for the DPI change
         protected override void OnDpiChanged(DpiChangedEventArgs e)
         {
@@ -253,19 +303,6 @@ namespace CalibreImport
             {
                 control.Font = new Font(control.Font.FontFamily, initialFontSize * scaleFactor, control.Font.Style);
             }
-        }
-
-        private void ImportForm_Load(object sender, EventArgs e)
-        {
-            ApplyResourceStrings();
-        }
-
-        private void ApplyResourceStrings()
-        {
-            this.btnImport.Text = ResourceStrings.ImportBtnRes;
-            this.btnCancel.Text = ResourceStrings.CancelRes;
-            this.btnSettings.Text = ResourceStrings.SettingsRes;
-            this.Text = ResourceStrings.SelectLibraryRes;
         }
     }
 }

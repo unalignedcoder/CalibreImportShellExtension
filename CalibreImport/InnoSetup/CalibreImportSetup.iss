@@ -1,14 +1,15 @@
 ; PREPROCESSOR DEFINITIONS
 #define ReleaseFilesPath "..\ReleaseFiles\" 
 #define ResourcesFilesPath "..\Resources\"  
-#define AppName "CalibreImport"             
+#define AppName "CalibreImport"   
+#define AppNameNice "Calibre Import Shell Extension"
 #define MainDll "CalibreImport.dll"         
 #define AppIcon "MainAppIcon.ico"           
 
 [Setup]
 ; Application metadata
-AppName={#AppName}
-AppVersion=0.0.7.7
+AppName={#AppNameNice}
+AppVersion=0.1.0.8
 DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#MainDll}
@@ -44,9 +45,24 @@ VersionInfoProductName={#AppName} Setup
 VersionInfoProductVersion=1.0.0.2
 VersionInfoVersion=1.0.0.2
 
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"
+; Name: "chinese"; MessagesFile: "compiler:Languages\Chinese.isl"
+Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
+Name: "french"; MessagesFile: "compiler:Languages\French.isl"
+Name: "german"; MessagesFile: "compiler:Languages\German.isl"
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
+Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
+Name: "korean"; MessagesFile: "compiler:Languages\Korean.isl"
+Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
+Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
+Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
+
 [Files]
 Source: "{#ReleaseFilesPath}*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Check: Is64BitInstallMode
-Source: "{#ReleaseFilesPath}*.config"; DestDir: "{userappdata}\{#AppName}"; Flags: ignoreversion; Check: DirExists(ExpandConstant('{userappdata}\{#AppName}')) or ForceDirectories(ExpandConstant('{userappdata}\{#AppName}'))
 Source: "{#ResourcesFilesPath}Wizard.bmp"; DestDir: "{tmp}"; Flags: dontcopy
 Source: "{#ResourcesFilesPath}WizardLarge.bmp"; DestDir: "{tmp}"; Flags: dontcopy
 
@@ -138,8 +154,8 @@ begin
   NewLine +
     Space + 'The installation will:' + NewLine + NewLine +
     Space + Space + '• Install the necessary DLL files to: ' + CustomDir + ';' + NewLine +
-    Space + Space + '• Place the configuration file in: ' + AppDataPath + ';'  + NewLine +
-    Space + Space + '• Register the DLLs in system registry.' + NewLine + '.'  + NewLine +    
+    Space + Space + '• Register the DLLs in system registry.' + NewLine +
+    Space + Space + '• A configuration file will be created in: ' + AppDataPath + ';'  + NewLine + NewLine +    
     Space + 'Click Install to proceed.';
 end;
 
@@ -166,8 +182,8 @@ begin
   InfoLabel.AutoSize := False;
   InfoLabel.WordWrap := True;
   InfoLabel.Caption :=
-    'You can now right-click on any ebook file to start using {#AppName}.' + #13#10#13#10 + #13#10#13#10 +
-    'Note: If the context menu entry is not visible yet:' + #13#10 +
+    'You can now right-click on any ebook file to start using {#AppNameNice}.' + #13#10#13#10 +
+    'If the context menu entry is not visible yet:' + #13#10 +
     '• Restart Windows Explorer (explorer.exe)' + #13#10 +
     '• Or log off and back on to your Windows session';
 end;

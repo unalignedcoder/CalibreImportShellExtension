@@ -23,7 +23,7 @@ namespace CalibreImport
     [ClassInterface(ClassInterfaceType.None)]//, ComVisible(true)]
     [Guid("8E5CD5CA-64E0-479A-B62F-B1FC00FF0227")]
     [DisplayName("CalibreImport")]
-    [COMServerAssociation(AssociationType.AllFiles)] //needed for Directory Opus, apparently.
+    //[COMServerAssociation(AssociationType.AllFiles)] //needed for Directory Opus, apparently.
     [COMServerAssociation(AssociationType.ClassOfExtension, ".epub", ".pdf", ".mobi", ".azw", ".azw3", ".fb2", ".djvu", ".lrf", ".rtf", ".txt", ".doc", ".docx", ".odt", ".htm", ".html", ".cbz", ".cbr", ".pdb", ".snb", ".tcr", ".zip", ".rar")]
 
     // Welcome to CalibreImport, the main class of this Shell Extension.
@@ -32,7 +32,8 @@ namespace CalibreImport
     // The class is decorated with various attributes to specify its COM visibility and associations with file types.
     public class CalibreImport : SharpContextMenu
     {
-        private List<string> _supportedExtensions = new List<string>();
+        // HashSet for supported extensions to improve lookup performance
+        private HashSet<string> _supportedExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // variables from the Settings file and their defaults
         private string MenuText = ResourceStrings.MenuTextRes;
@@ -43,7 +44,7 @@ namespace CalibreImport
         private string hiddenLibraries = CustomSettings.Config.AppSettings.Settings["hiddenLibraries"].Value ?? "";
         private bool skipSuccessMessage = bool.Parse(CustomSettings.Config.AppSettings.Settings["skipSuccessMessage"].Value ?? "False");
         private bool autoCalibreOpen = bool.Parse(CustomSettings.Config.AppSettings.Settings["autoCalibreOpen"].Value ?? "False");
-
+        private string savedCulture = CustomSettings.Config.AppSettings.Settings["language"].Value;
 
         // List of Calibre-related processes to check
         private static readonly string[] CalibreProcesses = new[]
@@ -57,25 +58,28 @@ namespace CalibreImport
             "calibre-smtp"
         };
 
+        // Time checks for retrieveing file types in CanShowMenu
+        private DateTime _lastExtensionsUpdate = DateTime.MinValue;
+        private readonly TimeSpan _extensionCacheDuration = TimeSpan.FromMinutes(5);
+
         // other variables
         private string dllDirectory;
         private string calibredbPath;
         private string calibrePath;
 
-        // Constructor: sets culture from settings,
-        // and loads paths and supported file extensions
+        // Constructor: calls on the CultureManager class to set culture,
+        // and loads paths and supported file extensions.
         public CalibreImport()
         {
-            // Load the saved language setting
-            var savedCulture = CustomSettings.Config.AppSettings.Settings["language"].Value;
-            if (!string.IsNullOrEmpty(savedCulture))
-            {
-                CultureInfo culture = new CultureInfo(savedCulture);
-                Thread.CurrentThread.CurrentUICulture = culture;
-                Thread.CurrentThread.CurrentCulture = culture;
-            }
+            // Ensure the default application culture is set FIRST before any other initialization
+            CultureManager.SetApplicationCulture();
 
-            // Initialize other components or settings if needed
+            // Set default thread culture to ensure new threads use the correct culture
+            CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            // Initialize other components or settings
             InitializePaths();
             LoadSupportedExtensions();
         }
@@ -95,19 +99,23 @@ namespace CalibreImport
         {
             try
             {
-                InitializePaths();
-                LoadSupportedExtensions();
-
+                // Only reload extensions if needed
+                if (_supportedExtensions == null || _supportedExtensions.Count == 0 ||
+                    DateTime.Now - _lastExtensionsUpdate > _extensionCacheDuration)
+                {
+                    InitializePaths();
+                    LoadSupportedExtensions();
+                    _lastExtensionsUpdate = DateTime.Now;
+                }
                 // Log the selected item paths and supported extensions
                 Logger.LogThis($"SelectedItemPaths: {string.Join(", ", SelectedItemPaths)}", true);
-                Logger.LogThis($"SupportedExtensions: {string.Join(", ", _supportedExtensions)}", true);
+                //Logger.LogThis($"SupportedExtensions: {string.Join(", ", _supportedExtensions)}", true);
 
                 // Ensure all selected items have supported extensions
                 bool allSupported = SelectedItemPaths.Any(p => _supportedExtensions.Contains(Path.GetExtension(p).ToLower()));
                 Logger.LogThis($"AllSupported: {allSupported}", true);
 
                 return allSupported;
-                //return true;
             }
             catch (Exception ex)
             {
@@ -120,6 +128,9 @@ namespace CalibreImport
         // Handles both submenu and single menu item display modes based on user settings.
         protected override ContextMenuStrip CreateMenu()
         {
+            // Make sure culture is set correctly before creating any UI text
+            CultureManager.SetApplicationCulture();
+
             var menu = new ContextMenuStrip();
             Logger.LogThis("Creating context menu.", true);
 
@@ -217,6 +228,9 @@ namespace CalibreImport
         {
             try
             {
+                // Ensure culture is set correctly before displaying any messages
+                CultureManager.SetApplicationCulture();
+
                 Logger.LogThis("ExecuteImport method called.", true);
 
                 InitializePaths();
@@ -233,6 +247,7 @@ namespace CalibreImport
 
                 Logger.LogThis($"Found {filePaths.Count} supported files.", true);
 
+                // make sure calibredb.exe exists, otherwise bye-bye
                 if (!File.Exists(calibredbPath))
                 {
                     Logger.LogThis($"Could not find calibredb.exe at {calibredbPath}. Please update the script with the correct path.");
@@ -243,13 +258,14 @@ namespace CalibreImport
 
                 Logger.LogThis("calibredb.exe found.", true);
 
+                // What to do if Calibre is running
                 if (IsCalibreRunning())
                 {
                     Logger.LogThis("Calibre is running.", true);
 
                     if (autoKillCalibre)
                     {
-                        Logger.LogThis("Auto-killing Calibre.", true);
+                        Logger.LogThis("Auto-killing Calibre without asking.", true);
                         KillCalibre();
                     }
                     else
@@ -299,11 +315,9 @@ namespace CalibreImport
                         return allSuccessful;
                     };
 
-                    using (var importForm = new ImportForm(libraries, importFunction))
-                    {
-                        importForm.Show();
-                        // The form will handle success messages and opening Calibre
-                    }
+                    var importForm = new ImportForm(libraries, importFunction);
+                    importForm.ShowDialog();
+
                 }
                 else
                 {
@@ -386,7 +400,11 @@ namespace CalibreImport
                 process.WaitForExit();
 
                 Logger.LogThis($"Process output: {output}", true);
-                Logger.LogThis($"Process error: {error}", true);
+                // Only log error output if it's not empty
+                if (!string.IsNullOrWhiteSpace(error))
+                {
+                    Logger.LogThis($"Process error: {error}", true);
+                }
 
                 if (process.ExitCode == 0)
                 {
@@ -537,45 +555,18 @@ namespace CalibreImport
             }
         }
 
-        // Load ebook extensions supported by Calibre from Registry	   
+        // Call on the SupportedFileTypes class
+        // In order to rertrieve the list of supported file extensions
         private void LoadSupportedExtensions()
         {
-            using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\calibre\calibre64bit\Capabilities\FileAssociations"))
-            {
-                if (key != null)
-                {
-                    _supportedExtensions = key.GetValueNames().ToList();
-                    return;
-                }
-            }
+            _supportedExtensions.Clear();
 
-            _supportedExtensions = new List<string>
-            {
-                ".epub", ".pdf", ".mobi", ".azw", ".azw3", ".fb2", ".djvu",
-                ".lrf", ".rtf", ".txt", ".doc", ".docx", ".odt", ".htm", ".html",
-                ".cbz", ".cbr", ".pdb", ".snb", ".tcr", ".zip", ".rar"
-            };
-        }
+            // Use the centralized file extensions manager with HashSet for performance
+            _supportedExtensions = SupportedFileTypes.GetExtensionsHashSet();
 
-        // Get the list of supported eBook file extensions										
-        private static List<string> GetFileExtensions()
-        {
-            var extensions = new List<string>();
-            using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\calibre\calibre64bit\Capabilities\FileAssociations"))
-            {
-                if (key != null)
-                {
-                    extensions = key.GetValueNames().ToList();
-                    return extensions;
-                }
-            }
-
-            return new List<string>
-            {
-                ".epub", ".pdf", ".mobi", ".azw", ".azw3", ".fb2", ".djvu",
-                ".lrf", ".rtf", ".txt", ".doc", ".docx", ".odt", ".htm", ".html",
-                ".cbz", ".cbr", ".pdb", ".snb", ".tcr", ".zip", ".rar"
-            };
+            Logger.LogThis($"Loaded {_supportedExtensions.Count} supported extensions from " +
+                (_supportedExtensions.Count > SupportedFileTypes.DefaultExtensions.Length ?
+                "registry." : "default list."), true);
         }
 
         // Check if any Calibre-related process is running
@@ -584,8 +575,7 @@ namespace CalibreImport
             return CalibreProcesses.Any(processName => Process.GetProcessesByName(processName).Any());
         }
 
-        // Attempts to terminate all Calibre-related processes
-        // Prompts for user confirmation unless auto-kill is enabled
+        // Attempts to terminate all Calibre-related processes, if any.
         private void KillCalibre()
         {
             var runningProcesses = CalibreProcesses
@@ -595,20 +585,21 @@ namespace CalibreImport
             if (runningProcesses.Any())
             {
                 var processNames = runningProcesses.Select(p => p.ProcessName).Distinct();
-                var warningMessage = $"{ResourceStrings.CalibreProcessesRunningRes}\n\n{string.Join("\n", processNames)}\n\n{ResourceStrings.DoYouWantToProceedRes}";
+                Logger.LogThis($"Terminating Calibre processes: {string.Join(", ", processNames)}", true);
 
-                if (MessageBox.Show(warningMessage, ResourceStrings.CalibreRunning2Res, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                foreach (var process in runningProcesses)
                 {
-                    foreach (var process in runningProcesses)
+                    try
                     {
                         process.Kill();
+                        process.WaitForExit(1000); // Wait up to 1 second for the process to exit
                     }
-                    Logger.LogThis("Calibre-related processes were running and have been terminated.", true);
+                    catch (Exception ex)
+                    {
+                        Logger.LogThis($"Error killing process {process.ProcessName}: {ex.Message}", true);
+                    }
                 }
-                else
-                {
-                    Logger.LogThis("User chose not to terminate Calibre-related processes.", true);
-                }
+                Logger.LogThis("Calibre-related processes have been terminated.", true);
             }
             else
             {
@@ -628,9 +619,14 @@ namespace CalibreImport
             try
             {
                 Logger.LogThis("Attempting to show Settings form.", true);
+
+                // Make sure culture is set correctly before showing the form
+                CultureManager.SetApplicationCulture();
+
                 var form = new SettingsForm();
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.Show();
+
                 Logger.LogThis("Settings form displayed successfully.", true);
             }
             catch (Exception ex)
@@ -666,8 +662,11 @@ namespace CalibreImport
         {
             try
             {
+                // Ensure culture is set correctly before displaying any messages
+                CultureManager.SetApplicationCulture();
+
                 Logger.LogThis("Registering shell extension...", true);
-                KeyRegistryExtensions.RegisterExtension(t.GUID, "ImportToCalibre", GetFileExtensions());
+                KeyRegistryExtensions.RegisterExtension(t.GUID, "ImportToCalibre", SupportedFileTypes.GetExtensions());
                 Logger.LogThis("Shell extension registered successfully.", true);
             }
             catch (Exception ex)
@@ -683,9 +682,12 @@ namespace CalibreImport
         {
             try
             {
+                // Ensure culture is set correctly before displaying any messages
+                CultureManager.SetApplicationCulture();
+
                 Logger.LogThis("Unregistering shell extension...", true);
 
-                KeyRegistryExtensions.UnregisterExtension(t.GUID, GetFileExtensions());
+                KeyRegistryExtensions.UnregisterExtension(t.GUID, SupportedFileTypes.GetExtensions());
                 Logger.LogThis("Shell extension unregistered successfully.", true);
             }
             catch (Exception ex)
@@ -693,17 +695,17 @@ namespace CalibreImport
                 Logger.LogThis($"Unregistration failed: {ex.Message}");
             }
         }
-
     }
 
-    // Class to represent Calibre library									 
+    // Class to represent Calibre library						 
     public class CalibreLibrary
     {
         public string Path { get; set; }
         public string Name { get; set; }
     }
 
-    // Class to manage registry keys upon registration and unregistration
+    // Class to manage registry keys upon registration and unregistration.
+    // Called by [ComRegisterFunction] and [ComUnregisterFunction] in the main class.
     public static class KeyRegistryExtensions
     {
         public static void RegisterExtension(Guid guid, string menuName, List<string> extensions)

@@ -37,9 +37,9 @@ namespace CalibreImport
             this.groupDuplicate = new System.Windows.Forms.GroupBox();
             this.groupHiddenLibraries = new System.Windows.Forms.GroupBox();
             this.groupOtherOptions = new System.Windows.Forms.GroupBox();
+            this.chkOpenCalibreAfterImport = new System.Windows.Forms.CheckBox();
             this.chkSkipSuccessMessage = new System.Windows.Forms.CheckBox();
             this.groupPath = new System.Windows.Forms.GroupBox();
-            this.chkOpenCalibreAfterImport = new System.Windows.Forms.CheckBox();
             this.groupLanguage.SuspendLayout();
             this.groupButtons.SuspendLayout();
             this.groupDuplicate.SuspendLayout();
@@ -61,6 +61,7 @@ namespace CalibreImport
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // comboBoxLanguage
             // 
@@ -153,12 +154,18 @@ namespace CalibreImport
             this.groupOtherOptions.Name = "groupOtherOptions";
             this.groupOtherOptions.TabStop = false;
             // 
+            // chkOpenCalibreAfterImport
+            // 
+            resources.ApplyResources(this.chkOpenCalibreAfterImport, "chkOpenCalibreAfterImport");
+            this.chkOpenCalibreAfterImport.Enabled = this.chkSkipSuccessMessage.Checked;
+            this.chkOpenCalibreAfterImport.Name = "chkOpenCalibreAfterImport";
+            this.chkOpenCalibreAfterImport.UseVisualStyleBackColor = true;
+            // 
             // chkSkipSuccessMessage
             // 
             resources.ApplyResources(this.chkSkipSuccessMessage, "chkSkipSuccessMessage");
             this.chkSkipSuccessMessage.Name = "chkSkipSuccessMessage";
             this.chkSkipSuccessMessage.UseVisualStyleBackColor = true;
-            // Add event handler for SkipSuccessfulMessage checkbox
             this.chkSkipSuccessMessage.CheckedChanged += new System.EventHandler(this.chkSkipSuccessMessage_CheckedChanged);
             // 
             // groupPath
@@ -167,13 +174,6 @@ namespace CalibreImport
             resources.ApplyResources(this.groupPath, "groupPath");
             this.groupPath.Name = "groupPath";
             this.groupPath.TabStop = false;
-            // 
-            // chkOpenCalibreAfterImport
-            // 
-            resources.ApplyResources(this.chkOpenCalibreAfterImport, "chkOpenCalibreAfterImport");
-            this.chkOpenCalibreAfterImport.Name = "chkOpenCalibreAfterImport";
-            this.chkOpenCalibreAfterImport.UseVisualStyleBackColor = true;
-            this.chkOpenCalibreAfterImport.Enabled = this.chkSkipSuccessMessage.Checked;
             // 
             // SettingsForm
             // 
@@ -188,7 +188,9 @@ namespace CalibreImport
             this.Controls.Add(this.groupDuplicate);
             this.Controls.Add(this.groupPath);
             this.Controls.Add(this.groupHiddenLibraries);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "SettingsForm";
+            this.TopMost = true;
             this.groupLanguage.ResumeLayout(false);
             this.groupButtons.ResumeLayout(false);
             this.groupButtons.PerformLayout();
@@ -199,9 +201,6 @@ namespace CalibreImport
             this.groupPath.ResumeLayout(false);
             this.groupPath.PerformLayout();
             this.ResumeLayout(false);
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.StartPosition = FormStartPosition.CenterScreen;
 
         }
 

@@ -116,6 +116,7 @@
     <Compile Include="CalibreImport.cs" />
     <Compile Include="CalibreLibraryManager.cs" />
     <Compile Include="CheckPortable.cs" />
+    <Compile Include="CultureManager.cs" />
     <Compile Include="CustomSettings.cs" />
     <Compile Include="ImportForm.cs">
       <SubType>Form</SubType>
@@ -144,6 +145,7 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SupportedFileTypes.cs" />
   </ItemGroup>
   <!-- 
 	Resources for the Forms 
@@ -175,7 +177,6 @@
     <None Include="Powershell\Post-Build.ps1" />
     <None Include="Powershell\Pre-Build.ps1" />
     <None Include="Powershell\Setup.ps1" />
-    <None Include="Properties\CalibreImport.config" />
     <None Include="ReleaseFiles\Newtonsoft.Json.dll" />
     <None Include="ReleaseFiles\SharpShell.dll" />
     <None Include="ReleaseFiles\CalibreImport.dll" />

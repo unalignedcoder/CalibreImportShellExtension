@@ -4,15 +4,15 @@ using System.Globalization;
 
 public static class Locales
 {
-    // ResourceStrings.cs will pick up localization strings from here
+    // ResourceStrings.cs will pick up localization strings from here.
     // This is a dictionary of dictionaries, where the outer dictionary's key is the culture name.
-    // In case you were wondering, we adopted this self-made method over the built-in Resources.resx
-    // method, in order to avoid the need to create a separate file for each language and, more
-    // importantly, to avoid the creation of locale folders for each language within the release build.
+    // This dictionary-based self-made localization Class is preferable over the "Resources.resx
+    // C#" method, because it saves from the need to create a separate file for each language and, more
+    // importantly, from the need to create locale folders for each language within the release build.
     private static readonly Dictionary<string, Dictionary<string, string>> _localizedStrings = new Dictionary<string, Dictionary<string, string>>
     {
         {
-            "en-US", new Dictionary<string, string>
+            "en", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -37,7 +37,7 @@ public static class Locales
                 { "SetEntryName", "Name of the context menu entry:" },
                 { "PathToCalibre", "Path to the Calibre folder:" },
                 { "DuplicatesWhat", "What to do with duplicate books:" },
-                { "NameSettingsForm", "Import to Calibre Settings:" },
+                { "NameSettingsForm", "Calibre Import Settings" },
                 { "RegistrationFailed", "Registration failed" },
                 { "NoLibraries", "No Calibre libraries found." },
                 { "Error", "Error" },
@@ -53,7 +53,48 @@ public static class Locales
            }
         },
         {
-            "fr-FR", new Dictionary<string, string>
+            "ar", new Dictionary<string, string>
+            {
+                { "NameApp", "Calibre Import" },
+                { "NameAppShort", "CalibreImport" },
+                { "MenuText", "استيراد إلى كاليبر" },
+                { "InvalidSelection", "اختيار غير صالح للملفات" },
+                { "Settings", "الإعدادات" },
+                { "CalibreRunning", "كاليبر قيد التشغيل. هل ترغب في إغلاقه؟" },
+                { "ImportSuccess", "تم استيراد الملفات بنجاح. هل ترغب في تشغيل كاليبر؟" },
+                { "ImportFailure", "فشل استيراد الملفات. تحقق من السجل للحصول على التفاصيل." },
+                { "ImportBtn", "استيراد" },
+                { "Importing", "جارٍ الاستيراد..." },
+                { "InvalidFiles", "اختيار غير صالح للملفات" },
+                { "CalibreProcessesRunning", "العمليات التالية المتعلقة بكاليبر قيد التشغيل وسيتم إنهاؤها:" },
+                { "DoYouWantToProceed", "هل تريد المتابعة؟" },
+                { "CalibreRunning2", "عملية كاليبر قيد التشغيل" },
+                { "ErrorLaunching", "خطأ في تشغيل كاليبر" },
+                { "UseSubmenu", "استخدام قائمة فرعية بدلاً من حوار" },
+                { "LogEbooks", "تسجيل الكتب الإلكترونية التي يتم استيرادها" },
+                { "AlsoDebugLog", "تسجيل أيضًا للتصحيح" },
+                { "KillCalibre", "إغلاق كاليبر تلقائيًا قبل الاستيراد" },
+                { "HideLibraries", "حدد المكتبات التي ترغب في إخفائها من القائمة" },
+                { "SetEntryName", "اسم عنصر قائمة السياق:" },
+                { "PathToCalibre", "المسار إلى مجلد كاليبر:" },
+                { "DuplicatesWhat", "ماذا تفعل مع الكتب المكررة:" },
+                { "NameSettingsForm", "إعدادات Calibre Import" },
+                { "RegistrationFailed", "فشل التسجيل" },
+                { "NoLibraries", "لم يتم العثور على مكتبات كاليبر." },
+                { "Error", "خطأ" },
+                { "SettingsSaved", "تم حفظ الإعدادات بنجاح." },
+                { "ImportForm", "استيراد كاليبر" },
+                { "SelectLibrary", "اختر مكتبة كاليبر" },
+                { "PleaseSelectLibrary", "الرجاء اختيار مكتبة." },
+                { "Save", "حفظ" },
+                { "Cancel", "إلغاء" },
+                { "SelectLanguage", "اختر اللغة:" },
+                { "Skipmessage", "تخطي رسالة الاستيراد الناجح" },
+                { "AutoOpenCalibre", "فتح كاليبر بعد الاستيراد" }
+            }
+        },
+        {
+            "fr", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -94,7 +135,7 @@ public static class Locales
             }
         },
         {
-            "cs-CZ", new Dictionary<string, string>
+            "cs", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -135,7 +176,7 @@ public static class Locales
             }
         },
         {
-            "de-DE", new Dictionary<string, string>
+            "de", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -175,7 +216,8 @@ public static class Locales
                 { "AutoOpenCalibre", "Calibre nach dem Import öffnen" }
             }
         },
-        { "es", new Dictionary<string, string>
+        {
+            "es", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -215,7 +257,8 @@ public static class Locales
                 { "AutoOpenCalibre", "Abrir Calibre después de importar" }
             }
         },
-        { "it", new Dictionary<string, string>
+        {
+            "it", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -223,7 +266,7 @@ public static class Locales
                 { "InvalidSelection", "Selezione di file non valida" },
                 { "Settings", "Impostazioni" },
                 { "CalibreRunning", "Calibre è in esecuzione. Vuoi chiuderlo?" },
-                { "ImportSuccess", "File importati con successo. Vuoi avviare Calibre?" },
+                { "ImportSuccess", "File importati con successo. Vuoi aprire Calibre?" },
                 { "ImportFailure", "Importazione dei file non riuscita. Controlla il log per i dettagli." },
                 { "Importing", "Importazione..." },
                 { "ImportBtn", "Importa" },
@@ -240,7 +283,7 @@ public static class Locales
                 { "SetEntryName", "Nome della voce del menu contestuale:" },
                 { "PathToCalibre", "Percorso della cartella Calibre:" },
                 { "DuplicatesWhat", "Cosa fare con i libri duplicati:" },
-                { "NameSettingsForm", "Impostazioni dell'estensione di shell di Calibre:" },
+                { "NameSettingsForm", "Impostazioni di Calibre Import:" },
                 { "RegistrationFailed", "Registrazione fallita:" },
                 { "NoLibraries", "Nessuna libreria Calibre trovata." },
                 { "Error", "Errore." },
@@ -255,7 +298,8 @@ public static class Locales
                 { "AutoOpenCalibre", "Apri Calibre dopo l'importazione" }
             }
         },
-        { "ja", new Dictionary<string, string>
+        {
+            "ja", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -280,7 +324,7 @@ public static class Locales
                 { "SetEntryName", "コンテキストメニュー項目の名前:" },
                 { "PathToCalibre", "Calibre フォルダーへのパス:" },
                 { "DuplicatesWhat", "重複する本に対して行う操作:" },
-                { "NameSettingsForm", "Calibre シェル拡張設定:" },
+                { "NameSettingsForm", "Calibre Import の設定" },
                 { "RegistrationFailed", "登録に失敗しました:" },
                 { "NoLibraries", "Calibre ライブラリが見つかりません。" },
                 { "Error", "エラー" },
@@ -296,7 +340,7 @@ public static class Locales
             }
         },
         {
-            "ko-KR", new Dictionary<string, string>
+            "ko", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -321,7 +365,7 @@ public static class Locales
                 { "SetEntryName", "컨텍스트 메뉴 항목 이름:" },
                 { "PathToCalibre", "Calibre 폴더 경로:" },
                 { "DuplicatesWhat", "중복된 책에 대한 작업:" },
-                { "NameSettingsForm", "Calibre 셸 확장 설정:" },
+                { "NameSettingsForm", "Calibre Import 설정" },
                 { "RegistrationFailed", "등록 실패:" },
                 { "NoLibraries", "Calibre 라이브러리를 찾을 수 없습니다." },
                 { "Error", "오류." },
@@ -337,7 +381,7 @@ public static class Locales
             }
         },
         {
-            "pt-PT", new Dictionary<string, string>
+            "pt", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -362,7 +406,7 @@ public static class Locales
                 { "SetEntryName", "Nome da entrada do menu de contexto:" },
                 { "PathToCalibre", "Caminho para a pasta do Calibre:" },
                 { "DuplicatesWhat", "O que fazer com livros duplicados:" },
-                { "NameSettingsForm", "Configurações da Extensão de Shell do Calibre:" },
+                { "NameSettingsForm", "Configurações do Calibre Import" },
                 { "RegistrationFailed", "Falha no registro:" },
                 { "NoLibraries", "Nenhuma biblioteca do Calibre encontrada." },
                 { "Error", "Erro." },
@@ -378,7 +422,7 @@ public static class Locales
             }
         },
         {
-            "ru-RU", new Dictionary<string, string>
+            "ru", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -403,7 +447,7 @@ public static class Locales
                 { "SetEntryName", "Имя пункта контекстного меню:" },
                 { "PathToCalibre", "Путь к папке Calibre:" },
                 { "DuplicatesWhat", "Что делать с дублирующимися книгами:" },
-                { "NameSettingsForm", "Настройки расширения оболочки Calibre:" },
+                { "NameSettingsForm", "Настройки Calibre Import" },
                 { "RegistrationFailed", "Регистрация не удалась:" },
                 { "NoLibraries", "Библиотеки Calibre не найдены." },
                 { "Error", "Ошибка." },
@@ -419,7 +463,7 @@ public static class Locales
             }
         },
         {
-            "tr-TR", new Dictionary<string, string>
+            "tr", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -444,7 +488,7 @@ public static class Locales
                 { "SetEntryName", "Bağlam menüsü girişinin adı:" },
                 { "PathToCalibre", "Calibre klasörünün yolu:" },
                 { "DuplicatesWhat", "Yinelenen kitaplarla ne yapılmalı:" },
-                { "NameSettingsForm", "Calibre Kabuk Uzantısı Ayarları:" },
+                { "NameSettingsForm", "Calibre Import Ayarları" },
                 { "RegistrationFailed", "Kayıt başarısız:" },
                 { "NoLibraries", "Calibre kütüphaneleri bulunamadı." },
                 { "Error", "Hata." },
@@ -460,7 +504,7 @@ public static class Locales
             }
         },
         {
-            "zh-CN", new Dictionary<string, string>
+            "zh", new Dictionary<string, string>
             {
                 { "NameApp", "Calibre Import" },
                 { "NameAppShort", "CalibreImport" },
@@ -485,7 +529,7 @@ public static class Locales
                 { "SetEntryName", "上下文菜单项的名称：" },
                 { "PathToCalibre", "Calibre 文件夹的路径：" },
                 { "DuplicatesWhat", "如何处理重复的书籍：" },
-                { "NameSettingsForm", "Calibre Shell 扩展设置：" },
+                { "NameSettingsForm", "Calibre Import 设置" },
                 { "RegistrationFailed", "注册失败：" },
                 { "NoLibraries", "未找到 Calibre 库。" },
                 { "Error", "错误。" },
@@ -502,12 +546,26 @@ public static class Locales
         }
     };
 
+    public static List<string> GetSupportedCultures()
+    {
+        return new List<string>(_localizedStrings.Keys);
+    }
+
+    // Method to get the localized string based on the current culture
     public static string GetString(string key)
     {
-        var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName; // Use only the language part of the culture
-        if (_localizedStrings.ContainsKey(culture) && _localizedStrings[culture].ContainsKey(key))
+        // First try the full culture name (e.g., "it-IT")
+        var fullCulture = CultureInfo.CurrentCulture.Name;
+        if (_localizedStrings.ContainsKey(fullCulture) && _localizedStrings[fullCulture].ContainsKey(key))
         {
-            return _localizedStrings[culture][key];
+            return _localizedStrings[fullCulture][key];
+        }
+
+        // Then try the two-letter language code (e.g., "it")
+        var language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        if (_localizedStrings.ContainsKey(language) && _localizedStrings[language].ContainsKey(key))
+        {
+            return _localizedStrings[language][key];
         }
 
         // Fallback to default culture (en-US) if the key is not found for the current culture
@@ -518,6 +576,7 @@ public static class Locales
 
         throw new KeyNotFoundException($"The key '{key}' was not found in the localized strings.");
     }
+
 
 
 }
