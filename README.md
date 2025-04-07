@@ -60,7 +60,7 @@ This project has only been tested on x64 machines, with Windows 10/11 and calibr
  1) Download the setup file from the [latest release](https://github.com/unalignedcoder/CalibreImportShellExtension/releases).
  2) Run the setup and follow instructions.
 
- ![image](https://github.com/user-attachments/assets/9bb39ca3-abae-4dbd-9f15-d84df59dc198)
+ ![image](https://github.com/user-attachments/assets/d57d78c2-7ff3-4b7e-b3d2-defbfed3522d)
 
  This method will install the extension on a per-user basis.
 
