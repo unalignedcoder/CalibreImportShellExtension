@@ -1,4 +1,4 @@
-# Calibre Import Shell Extension
+# Calibre Import shell extension
 
 <img src="https://github.com/user-attachments/assets/89775627-822b-4d0e-baa1-615cd5598dc7" alt="CalibreImport Shell Extension" title="Download Calibre" align="left" style="height:100px" />
 
