@@ -54,7 +54,7 @@ The app is translated in the following langauges:
   * Turkish
 
 ## Requirements
-This project has only been tested on x64 machines, with Windows 10/11 and calibre 7. It may or may not work on different Windows systems and older Calibre versions. It requires the [.Net Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+This project has only been tested on x64 machines, with Windows 10/11 and calibre 7/8. It may or may not work on different Windows systems and older Calibre versions. It requires the [.Net Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
 
 ## Installation
  ### Setup executable
