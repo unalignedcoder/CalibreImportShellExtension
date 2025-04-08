@@ -15,7 +15,7 @@ Simply right-click on any eBook, or group of eBooks, and select "Import to Calib
 
 ![image](https://github.com/user-attachments/assets/cc6b9394-14ff-4110-93e3-70d715ddf9aa)
 
-Alternatively, the user can use a dialog window rather than the submenu. The functionality is the same.
+Alternatively, you can use a dialog window rather than the submenu. The functionality is the same.
 
 ![image](https://github.com/user-attachments/assets/1598cf4a-f025-428a-806f-ed44d40578f2)
 
