@@ -15,13 +15,13 @@ Simply right-click on any eBook, or group of eBooks, and select "Import to Calib
 
 ![image](https://github.com/user-attachments/assets/cc6b9394-14ff-4110-93e3-70d715ddf9aa)
 
-The files can have any of the Calibre-supported eBook file types. Calibre Import will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
-
-`.epub, .pdf, .mobi, .azw, .azw3, .fb2, .djvu, .lrf, .rtf, .txt, .doc, .docx, .odt, .htm, .html, .cbz, .cbr, .pdb, .snb, .tcr, .zip, .rar`.
-
 Alternatively, the user can use a dialog window rather than the submenu. The functionality is the same.
 
 ![image](https://github.com/user-attachments/assets/1598cf4a-f025-428a-806f-ed44d40578f2)
+
+The selected files can have any of the Calibre-supported eBook file types. Calibre Import will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
+
+`.epub, .pdf, .mobi, .azw, .azw3, .fb2, .djvu, .lrf, .rtf, .txt, .doc, .docx, .odt, .htm, .html, .cbz, .cbr, .pdb, .snb, .tcr, .zip, .rar`.
 
 Once the import has concluded, the user will be prompted to start Calibre and directly open the library into which the ebooks have been imported.
 
@@ -60,7 +60,7 @@ This project has only been tested on x64 machines, with Windows 10/11 and calibr
  1) Download the setup file from the [latest release](https://github.com/unalignedcoder/CalibreImportShellExtension/releases).
  2) Run the setup and follow instructions.
 
- ![image](https://github.com/user-attachments/assets/9bb39ca3-abae-4dbd-9f15-d84df59dc198)
+ ![image](https://github.com/user-attachments/assets/d57d78c2-7ff3-4b7e-b3d2-defbfed3522d)
 
  This method will install the extension on a per-user basis.
 
