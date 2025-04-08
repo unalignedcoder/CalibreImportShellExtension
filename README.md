@@ -32,6 +32,7 @@ A number of options can be set to suit your needs. In particular:
 * Hide libraries from the context submenu (this obviously doesn't affect the library visibility in Calibre!)
 * How the import process should behave with duplicates. The following options are established by Calibre: `overwrite` (the new book will replace the old); `ignore` (the book will not be imported); `new_record` (a duplicate entry will be created). Such settings are valid for all import operations, and cannot be modified on a per-book basis.
 * Whether to use a dialog or a submenu entry.
+* ... and more.
 
 ![image](https://github.com/user-attachments/assets/16919cec-1763-4d21-943f-193034114e81)
 
