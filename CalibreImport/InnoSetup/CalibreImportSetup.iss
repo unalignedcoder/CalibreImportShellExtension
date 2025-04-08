@@ -2,14 +2,14 @@
 #define ReleaseFilesPath "..\ReleaseFiles\" 
 #define ResourcesFilesPath "..\Resources\"  
 #define AppName "CalibreImport"   
-#define AppNameNice "Calibre Import Shell Extension"
+#define AppNameNice "Calibre Import shell extension"
 #define MainDll "CalibreImport.dll"         
 #define AppIcon "MainAppIcon.ico"           
 
 [Setup]
 ; Application metadata
 AppName={#AppNameNice}
-AppVersion=0.1.0.9
+AppVersion=0.1.1.0
 DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#MainDll}
@@ -66,6 +66,21 @@ Source: "{#ReleaseFilesPath}*.dll"; DestDir: "{app}"; Flags: ignoreversion recur
 Source: "{#ResourcesFilesPath}Wizard.bmp"; DestDir: "{tmp}"; Flags: dontcopy
 Source: "{#ResourcesFilesPath}WizardLarge.bmp"; DestDir: "{tmp}"; Flags: dontcopy
 
+[Run]
+; Register SharpShell DLL first (prerequisite)
+Filename: "{win}\Microsoft.NET\Framework64\v4.0.30319\regasm.exe"; \
+    Parameters: "/codebase ""{app}\SharpShell.dll"""; \
+    Flags: runhidden waituntilterminated; \
+    StatusMsg: "Registering SharpShell..."; \
+    Check: Is64BitInstallMode
+
+; Register Main DLL
+Filename: "{win}\Microsoft.NET\Framework64\v4.0.30319\regasm.exe"; \
+    Parameters: "/codebase ""{app}\{#MainDll}"""; \
+    Flags: runhidden waituntilterminated; \
+    StatusMsg: "Registering {#AppNameNice}..."; \
+    Check: Is64BitInstallMode
+    
 [UninstallRun]
 ; Unregister Main DLL
 Filename: "{win}\Microsoft.NET\Framework64\v4.0.30319\regasm.exe"; \
