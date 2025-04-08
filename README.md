@@ -62,10 +62,10 @@ This project has only been tested on x64 machines, with Windows 10/11 and calibr
 
  ![image](https://github.com/user-attachments/assets/d57d78c2-7ff3-4b7e-b3d2-defbfed3522d)
 
- This method will install the extension on a per-user basis.
+ This method will install the extension on a per-user basis. The setup wizard was created using InnoSetup, and you can investigate what it does by looking into the CalibreImportSetup.iss file here on Github.
 
  ### Zipped folder
- If you prefer running the dll and config file from the same folder, you can use the included PowerShell script to install in a "portable" mode. 
+ If you prefer running the dll and config file from the same folder, you can use the included PowerShell script to install in a "portable" mode (it's not really portable since it still needs to register the dll in the registry, but you know what I mean). 
 
  1) Download the [latest release](https://github.com/unalignedcoder/CalibreImportShellExtension/releases).
  2) Extract the files to a folder of your choice.
