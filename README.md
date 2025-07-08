@@ -19,11 +19,7 @@ Alternatively, you can use a dialog window rather than the submenu. The function
 
 ![image](https://github.com/user-attachments/assets/1598cf4a-f025-428a-806f-ed44d40578f2)
 
-The selected files can have any of the Calibre-supported eBook file types. Calibre Import will retrieve such list dynamically from the registry, and it usually corresponds to the following file extensions: 
-
-`.epub, .pdf, .mobi, .azw, .azw3, .fb2, .djvu, .lrf, .rtf, .txt, .doc, .docx, .odt, .htm, .html, .cbz, .cbr, .pdb, .snb, .tcr, .zip, .rar`.
-
-Once the import has concluded, the user will be prompted to start Calibre and directly open the library into which the ebooks have been imported.
+Once the import has concluded, the user will be prompted to start Calibre and directly open the library into which the ebooks have been imported. No need to switch libraries from within Calibre anymore.
 
 ## Settings
 
