@@ -336,7 +336,7 @@ namespace CalibreImport
                         reportProgress?.Invoke((i + 1) * 100 / totalFiles);
                     }
 
-                    // Method 2: Import all files at once
+                    // Post-import actions
                     if (allSuccessful)
                     {
                         Logger.LogThis("Files imported successfully.", true);
@@ -362,6 +362,7 @@ namespace CalibreImport
                             var result = MessageBox.Show(ResourceStrings.ImportSuccessRes, ResourceStrings.NameAppRes, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                             if (result == DialogResult.Yes)
                             {
+                                Logger.LogThis("Auto-opening Calibre due to user choice.", true);
                                 LaunchCalibre(selectedLibrary);
                             }
                         }
@@ -434,6 +435,67 @@ namespace CalibreImport
 
             Task.Run(() =>
             {
+
+                // Ensure Calibre is not running before import
+                if (IsCalibreRunning())
+                {
+                    Logger.LogThis("Calibre is running (ExecuteImportWithProgress).", true);
+
+                    if (autoKillCalibre)
+                    {
+                        Logger.LogThis("Auto-killing Calibre without asking (ExecuteImportWithProgress).", true);
+                        KillCalibre();
+
+                        // Re-check if Calibre is still running
+                        if (IsCalibreRunning())
+                        {
+                            Logger.LogThis("Failed to close Calibre. Import cannot proceed (ExecuteImportWithProgress).", true);
+                            progressForm.Invoke(new Action(() =>
+                            {
+                                progressForm.Close();
+                                MessageBox.Show("Calibre could not be closed automatically. Please close Calibre and try again.",
+                                    ResourceStrings.NameAppRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }));
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Logger.LogThis("Prompting user to close Calibre (ExecuteImportWithProgress).", true);
+                        var result = DialogResult.No;
+                        progressForm.Invoke(new Action(() =>
+                        {
+                            result = MessageBox.Show(ResourceStrings.CalibreRunningRes, ResourceStrings.CalibreRunning2Res, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        }));
+                        if (result == DialogResult.Yes)
+                        {
+                            KillCalibre();
+
+                            // Re-check if Calibre is still running
+                            if (IsCalibreRunning())
+                            {
+                                Logger.LogThis("Failed to close Calibre. Import cannot proceed (ExecuteImportWithProgress).", true);
+                                progressForm.Invoke(new Action(() =>
+                                {
+                                    progressForm.Close();
+                                    MessageBox.Show("Calibre could not be closed automatically. Please close Calibre and try again.",
+                                        ResourceStrings.NameAppRes, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }));
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Logger.LogThis("calibre.exe must be closed to proceed (ExecuteImportWithProgress).", true);
+                            progressForm.Invoke(new Action(() =>
+                            {
+                                progressForm.Close();
+                            }));
+                            return;
+                        }
+                    }
+                }
+
                 try
                 {
                     // For single file imports, we need more granular progress updates
@@ -452,6 +514,36 @@ namespace CalibreImport
 
                         // Ensure the progress bar shows completion
                         progressForm.UpdateProgress(100);
+
+                        // Post-import actions for single file
+                        if (success)
+                        {
+                            Logger.LogThis("Files imported successfully.", true);
+
+                            if (skipSuccessMessage)
+                            {
+                                Logger.LogThis("Skipping success message due to user settings.", true);
+
+                                if (autoCalibreOpen)
+                                {
+                                    Logger.LogThis("Auto-opening Calibre due to user settings.", true);
+                                    LaunchCalibre(selectedLibrary);
+                                }
+                                else
+                                {
+                                    Logger.LogThis("Not opening Calibre due to user settings.", true);
+                                }
+                            }
+                            else
+                            {
+                                var result = MessageBox.Show(ResourceStrings.ImportSuccessRes, ResourceStrings.NameAppRes, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (result == DialogResult.Yes)
+                                {
+                                    Logger.LogThis("Auto-opening Calibre due to user choice.", true);
+                                    LaunchCalibre(selectedLibrary);
+                                }
+                            }
+                        }
                     }
                     else
                     {

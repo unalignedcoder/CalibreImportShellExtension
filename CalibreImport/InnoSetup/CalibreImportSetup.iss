@@ -9,7 +9,7 @@
 [Setup]
 ; Application metadata
 AppName={#AppNameNice}
-AppVersion=0.1.1.0
+AppVersion=0.1.1.2
 DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#MainDll}
