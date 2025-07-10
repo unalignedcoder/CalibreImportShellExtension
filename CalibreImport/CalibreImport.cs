@@ -1,5 +1,5 @@
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
+// using Newtonsoft.Json.Linq;
 using SharpShell.Attributes;
 using SharpShell.ServerRegistration;
 using SharpShell.SharpContextMenu;
@@ -14,9 +14,12 @@ using System.Threading;
 using System.Windows.Forms;
 using System;
 using System.Threading.Tasks;
-using System.Reflection;
+// using System.Reflection;
 
+// -------------------------------------------------
 // Libri non sunt multiplicandi praeter necessitatem
+// -------------------------------------------------
+
 namespace CalibreImport
 {
     [ComVisible(true)]
