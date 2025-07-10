@@ -51,11 +51,11 @@ jobs:
         fi
 
     # Stop workflow if no changes detected
-    - name: Stop workflow if no changes detected
-      if: env.FILES_CHANGED == 'false'
-      run: |
-        echo "No relevant changes detected. Stopping workflow."
-        exit 0
+    # - name: Stop workflow if no changes detected
+      # if: env.FILES_CHANGED == 'false'
+      # run: |
+        # echo "No relevant changes detected. Stopping workflow."
+        # exit 0 # commenting this out to debug
 
     # Extract version from AssemblyInfo.cs and create a tag
     - name: Extract version from AssemblyInfo.cs and create a tag
